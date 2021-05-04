@@ -1,5 +1,5 @@
 
-package javaapplication77;
+package com.uvigo.poyectosushigo.CORE;
 
 public class Gyoza extends Carta{
     
