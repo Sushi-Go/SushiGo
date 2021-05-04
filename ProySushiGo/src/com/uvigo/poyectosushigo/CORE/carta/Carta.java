@@ -3,7 +3,6 @@
  */
 package com.uvigo.poyectosushigo.CORE.carta;
 
-
 public abstract class Carta {
     private String nombre;
     
