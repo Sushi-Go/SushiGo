@@ -4,7 +4,7 @@
 package com.uvigo.poyectosushigo.CORE;
 
 
-public class Carta {
+public abstract class Carta {
     private String nombre;
     
     public Carta(String nombre){
