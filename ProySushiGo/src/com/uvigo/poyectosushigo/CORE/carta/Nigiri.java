@@ -3,7 +3,7 @@
  */
 package com.uvigo.poyectosushigo.CORE.carta;
 
-public abstract class Nigiri extends Carta{
+public class Nigiri extends Carta{
     private String nombre;
     private int valor;
     
