@@ -1,7 +1,7 @@
 /*
  * Carta wasabi
  */
-package javaapplication77;
+package com.uvigo.poyectosushigo.CORE;
 
 public class Wasabi extends Carta{
     
