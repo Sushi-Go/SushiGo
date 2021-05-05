@@ -19,6 +19,10 @@ public class CartasMesa {
     }
     
     public void ponerSobreMesa(Carta c){
+<<<<<<< HEAD
+=======
+        
+>>>>>>> f95d92bc0b30ad388980cda51a545c807cadb2b4
     }
     
     public void retirarCartaMesa(Carta c){
