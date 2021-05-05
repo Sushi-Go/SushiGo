@@ -17,8 +17,8 @@ public class Mano {
         this.cartasMano=cartasMano;
     }
     
-    public Mano(int numCartasMano){
-        this.numCartasMano=numCartasMano;
+    public Mano(){
+        numCartasMano=0;
         cartasMano=new ListaEnlazada<>();
     }
     
