@@ -4,26 +4,36 @@ import java.util.Scanner;
 
 public class ES {
 
-    public static Scanner leer = new Scanner(System.in);
+    public static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Devuelve una cadena no vacía leída por teclado
+     * 
+     * @param mensaje literal que se imprime por pantalla al usuario
+     * @return la cadena leída, como String
+     */
     public static String pideCadena(String mensaje) {
-        // Poner el mensaje
-        System.out.println(mensaje);
-
-        // Pedir
-        return leer.nextLine();
-
+        String toret = "";
+        do {
+            System.out.print(mensaje);
+            toret = scanner.nextLine();
+        } while (toret.isBlank());
+        return toret;
     }
 
+    /**
+     * Devuelve un entero leído por teclado
+     * 
+     * @param mensaje literal que se imprime por pantalla al usuario
+     * @return el entero, como int
+     */
     public static int pideNumero(String mensaje) {
-        Scanner scanner = new Scanner(System.in);
-        boolean esValido = false; // True: entero leido correctamente
+        boolean esValido = false;
         int leer = 0;
 
         do {
             try {
-                System.out.print(mensaje);
-                leer = Integer.parseInt(scanner.nextLine().trim());
+                leer = Integer.parseInt(pideCadena(mensaje).trim());
                 esValido = true;
             } catch (NumberFormatException e) {
                 System.err.println("La cadena introducida no se puede "
@@ -35,15 +45,19 @@ public class ES {
         return leer;
     }
 
+    /**
+     * Devuelve un real leído por teclado
+     * 
+     * @param mensaje literal que se imprime por pantalla al usuario
+     * @return el real leído, como double
+     */
     private static double pideReal(String mensaje) {
-        Scanner scanner = new Scanner(System.in);
-        boolean esValido = false; // True: entero leido correctamente
+        boolean esValido = false;
         double leer = 0;
 
         do {
             try {
-                System.out.print(mensaje);
-                leer = Double.parseDouble(scanner.nextLine().trim());
+                leer = Double.parseDouble(pideCadena(mensaje).trim());
                 esValido = true;
             } catch (NumberFormatException e) {
                 System.err.println("La cadena introducida no se puede "
@@ -55,6 +69,12 @@ public class ES {
         return leer;
     }
 
+    /**
+     * Devuelve un carácter leído por teclado
+     * 
+     * @param mensaje literal que se imprime por pantalla al usuario
+     * @return la cadena leída, como String
+     */
     private static char pideCaracter(String msg) {
         return pideCadena(msg).toUpperCase().charAt(0);
     }
