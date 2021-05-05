@@ -7,12 +7,12 @@ public class ES {
     public static Scanner leer = new Scanner(System.in);
 
     public static String pideCadena(String mensaje) {
-        // Poner el mensaje
-        System.out.println(mensaje);
-
-        // Pedir
-        return leer.nextLine();
-
+        String toret = "";
+        do {
+            System.out.print(mensaje);
+            toret = leer.nextLine();
+        } while (toret.isBlank());
+        return toret;
     }
 
     public static int pideNumero(String mensaje) {
