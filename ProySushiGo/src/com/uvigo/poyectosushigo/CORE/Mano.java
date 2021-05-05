@@ -29,17 +29,18 @@ public class Mano {
         
     }
     
-    public void visualizarCartas(){
-        StringBuilder vis=new StringBuilder();
+    @Override
+    public String toString(){
+        StringBuilder toRet=new StringBuilder();
         Lista<Carta> temp=new ListaEnlazada<>();
         
-        vis.append("Lista de Cartas:");
+        toRet.append("Lista de Cartas:");
         for(Carta i:cartasMano){
-            vis.append("\n\t").append(i.toString());
+            toRet.append("\n\t").append(i.toString());
             temp.insertarPrincipio(i);
         }
         cartasMano=temp;
         
-        System.out.println(vis);
+        return toRet.toString();
     }
 }
