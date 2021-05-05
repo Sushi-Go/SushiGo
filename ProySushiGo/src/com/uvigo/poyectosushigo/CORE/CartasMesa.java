@@ -7,9 +7,10 @@ package com.uvigo.poyectosushigo.CORE;
 
 import com.uvigo.poyectosushigo.CORE.carta.*;
 import lista.*;
+import pila.*;
 
 public class CartasMesa {
-    private Lista<Carta> cartasMesa;
+    private Lista<Baraja> cartasMesa;
     private int numCartasMesa;
     
     public CartasMesa(){
@@ -18,14 +19,29 @@ public class CartasMesa {
     }
     
     public void ponerSobreMesa(Carta c){
-        cartasMesa.insertarPrincipio(c);
+
     }
     
-    public void retirarCarta(Carta c){
-        cartasMesa.suprimir(c);
+    public void retirarCartaMesa(Carta c){
+
+    }
+    
+    public int calcularPuntuacion(){
+        
+    }
+    
+    public void limpiarFinalRonda(){
+
+        
     }
     
     
+    public int calcularNumRollitos(){
+        
+    }
     
+    public void visualizarMesa(){
+        
+    }
 
 }
