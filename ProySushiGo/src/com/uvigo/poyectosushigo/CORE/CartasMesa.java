@@ -6,13 +6,26 @@
 package com.uvigo.poyectosushigo.CORE;
 
 import com.uvigo.poyectosushigo.CORE.carta.*;
+import lista.*;
 
 public class CartasMesa {
-    private Carta[] cartasMesa;
+    private Lista<Carta> cartasMesa;
     private int numCartasMesa;
     
+    public CartasMesa(){
+        numCartasMesa=0;
+        cartasMesa=new ListaEnlazada<>();
+    }
+    
+    public void ponerSobreMesa(Carta c){
+        cartasMesa.insertarPrincipio(c);
+    }
+    
+    public void retirarCarta(Carta c){
+        cartasMesa.suprimir(c);
+    }
+    
+    
     
 
-
-	
 }
