@@ -12,8 +12,13 @@ public class Mano {
     private int numCartas;
     private Lista<Carta> cartasMano;
 
-    public Mano(){
-        
+    public Mano(int numCartas,Lista<Carta> cartasMano){
+        this.numCartas=numCartas;
+        this.cartasMano=cartasMano;
+    }
+    
+    public Mano(int numCartas){
+        this.numCartas=numCartas;
     }
     
     public void aniadirCartaMano(Carta c){
