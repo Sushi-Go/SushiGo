@@ -1,5 +1,5 @@
 /*
- * Carta de nigiri
+ * Carta de Nigiri
  */
 package com.uvigo.poyectosushigo.CORE.carta;
 
