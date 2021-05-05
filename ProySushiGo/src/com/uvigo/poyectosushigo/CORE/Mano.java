@@ -12,8 +12,8 @@ public class Mano {
     private int numCartasMano;
     private Lista<Carta> cartasMano;
 
-    public Mano(int numCartasMano,Lista<Carta> cartasMano){
-        this.numCartasMano=numCartasMano;
+    public Mano(Lista<Carta> cartasMano){
+        numCartasMano=cartasMano.tamaño();
         this.cartasMano=cartasMano;
     }
     
@@ -22,7 +22,7 @@ public class Mano {
         cartasMano=new ListaEnlazada<>();
     }
     
-    public void aniadirCartaMano(Carta c){
+    public void añadirCartaMano(Carta c){
         cartasMano.insertarPrincipio(c);
     }
     
