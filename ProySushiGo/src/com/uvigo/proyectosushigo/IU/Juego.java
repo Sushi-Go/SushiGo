@@ -9,15 +9,19 @@ import java.util.Scanner;
 
 public class Juego {
 
-    private Jugador[] jugadores;
-    private  int numJugadores;
+    private static Jugador[] jugadores;
+    private static int numJugadores;
     private int cartasPorJugador;
     private int rondaActual;
 
-    public  void inicio() {
+    public static void inicio() {
 //Primero se obtiene el numero de jugadores
     numJugadores= cuantosJugadores();
-    jugadores=new Jugador[20];
+//Se crea el array de jugadores de la partida
+    jugadores= new Jugador[numJugadores];
+//Se añaden los jugadores al array
+    
+  
     
         
 
@@ -39,12 +43,33 @@ public class Juego {
         return rondaActual;
     }
 
-    public  int cuantosJugadores(){
+    public static void setJugadores(Jugador[] jugadores) {
+        Juego.jugadores = jugadores;
+    }
+
+    public static void setNumJugadores(int numJugadores) {
+        Juego.numJugadores = numJugadores;
+    }
+
+    public void setCartasPorJugador(int cartasPorJugador) {
+        this.cartasPorJugador = cartasPorJugador;
+    }
+
+    public void setRondaActual(int rondaActual) {
+        this.rondaActual = rondaActual;
+    }
+    
+
+    public static int cuantosJugadores(){
         int num;
         Scanner sc= new Scanner(System.in);
         System.out.println("Introduce el número de jugadores de la partida");
         num=sc.nextInt();
         return num;
+    }
+    
+    public void anhadeRonda(){
+        setRondaActual(getRondaActual()+1);
     }
     
     

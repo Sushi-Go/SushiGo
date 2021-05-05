@@ -6,10 +6,26 @@
  */
 package com.uvigo.poyectosushigo.CORE;
 
+import com.uvigo.poyectosushigo.CORE.carta.Carta;
+
 
 
 
 public class Jugador {
+    private String nombre;
+    private Mano mano;
+    private int puntosAcumulados;
+    private int puntosRondaActual;
+
+    public Jugador(String nombre) {
+        this.nombre = nombre;
+    }
     
+    
+    
+    
+    public void elegirCarta(Carta c){
+        
+    }
 	
 }
