@@ -5,9 +5,13 @@
 */
 package com.uvigo.poyectosushigo.CORE;
 
+import com.uvigo.poyectosushigo.CORE.carta.*;
 
 public class CartasMesa {
-
+    private Carta[] cartasMesa;
+    private int numCartasMesa;
+    
+    
 
 
 	
