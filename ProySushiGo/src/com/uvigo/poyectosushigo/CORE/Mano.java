@@ -9,7 +9,6 @@ import com.uvigo.poyectosushigo.CORE.carta.*;
 import lista.*;
 
 public class Mano {
-
     private int numCartas;
     private Lista<Carta> cartasMano;
 
