@@ -8,7 +8,7 @@ public class ES {
 
     /**
      * Devuelve una cadena no vacía leída por teclado
-     * 
+     *
      * @param mensaje literal que se imprime por pantalla al usuario
      * @return la cadena leída, como String
      */
@@ -23,11 +23,11 @@ public class ES {
 
     /**
      * Devuelve un entero leído por teclado
-     * 
+     *
      * @param mensaje literal que se imprime por pantalla al usuario
      * @return el entero, como int
      */
-    public static int pideNumero(String mensaje) {
+    public static int pideEntero(String mensaje) {
         boolean esValido = false;
         int leer = 0;
 
@@ -47,7 +47,7 @@ public class ES {
 
     /**
      * Devuelve un real leído por teclado
-     * 
+     *
      * @param mensaje literal que se imprime por pantalla al usuario
      * @return el real leído, como double
      */
@@ -71,9 +71,9 @@ public class ES {
 
     /**
      * Devuelve un carácter leído por teclado
-     * 
+     *
      * @param mensaje literal que se imprime por pantalla al usuario
-     * @return la cadena leída, como String
+     * @return el carácter leído, como char
      */
     private static char pideCaracter(String msg) {
         return pideCadena(msg).toUpperCase().charAt(0);

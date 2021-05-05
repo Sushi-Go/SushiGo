@@ -5,73 +5,52 @@
 package com.uvigo.proyectosushigo.IU;
 
 import com.uvigo.poyectosushigo.CORE.Jugador;
+import static com.uvigo.proyectosushigo.IU.ES.*;
 import java.util.Scanner;
 
 public class Juego {
 
     private static Jugador[] jugadores;
-    private static int numJugadores;
-    private int cartasPorJugador;
     private int rondaActual;
 
     public static void inicio() {
-//Primero se obtiene el numero de jugadores
-    numJugadores= cuantosJugadores();
-//Se crea el array de jugadores de la partida
-    jugadores= new Jugador[numJugadores];
-//Se añaden los jugadores al array
-    
-  
-    
         
-
+        //Texto de introducción, título, etc
+        System.out.println("");
+        
+        //Obtenemos el número de jugadores y creamos un arrray
+        System.out.println("El mínimo de jugadores es 2, y el máximo 5");
+        jugadores = new Jugador[pideNumJugadores()];
+        
+        
+        
+        
     }
 
-    public Jugador[] getJugadores() {
-        return jugadores;
-    }
-
-    public int getNumJugadores() {
-        return numJugadores;
-    }
-
-    public int getCartasPorJugador() {
-        return cartasPorJugador;
+    /**
+     * Pide el número de jugadores por teclado y lo devuelve
+     * 
+     * @return el número de jugadores, como entero
+     */
+    public static int pideNumJugadores() {
+        int toret = pideEntero("Número de jugadores: ");
+        
+        while (toret < 2 || toret > 5) {
+            toret = pideEntero("Número de jugadores: ");
+        }
+        return toret;
     }
 
     public int getRondaActual() {
         return rondaActual;
     }
 
-    public static void setJugadores(Jugador[] jugadores) {
-        Juego.jugadores = jugadores;
-    }
-
-    public static void setNumJugadores(int numJugadores) {
-        Juego.numJugadores = numJugadores;
-    }
-
-    public void setCartasPorJugador(int cartasPorJugador) {
-        this.cartasPorJugador = cartasPorJugador;
-    }
-
     public void setRondaActual(int rondaActual) {
         this.rondaActual = rondaActual;
     }
-    
 
-    public static int cuantosJugadores(){
-        int num;
-        Scanner sc= new Scanner(System.in);
-        System.out.println("Introduce el número de jugadores de la partida");
-        num=sc.nextInt();
-        return num;
+    public void anhadeRonda() {
+        setRondaActual(getRondaActual() + 1);
     }
-    
-    public void anhadeRonda(){
-        setRondaActual(getRondaActual()+1);
-    }
-    
-    
 
 }
