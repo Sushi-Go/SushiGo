@@ -16,7 +16,7 @@ public abstract class Carta {
     
     @Override
     public String toString(){
-        return "Carta: "+getNombre();
+        return "[" + getNombre() + "]";
     }
 	
 }
