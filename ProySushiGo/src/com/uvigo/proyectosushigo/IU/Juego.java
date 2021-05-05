@@ -6,12 +6,16 @@ package com.uvigo.proyectosushigo.IU;
 
 
 public class Juego {
+    private int numjugadores;
+    private int cartasPorJugador;
+    private int rondaActual;
+
+
+    public static void inicio (){
+
+        
+    }
     
-
-
-public static void inicio (){
-
-
-
-}
+    
+    
 }
