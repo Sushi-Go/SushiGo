@@ -19,6 +19,7 @@ public class Mano {
     
     public Mano(int numCartasMano){
         this.numCartasMano=numCartasMano;
+        cartasMano=new ListaEnlazada<>();
     }
     
     public void aniadirCartaMano(Carta c){
