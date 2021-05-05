@@ -9,16 +9,16 @@ import com.uvigo.poyectosushigo.CORE.carta.*;
 import lista.*;
 
 public class Mano {
-    private int numCartas;
+    private int numCartasMano;
     private Lista<Carta> cartasMano;
 
-    public Mano(int numCartas,Lista<Carta> cartasMano){
-        this.numCartas=numCartas;
+    public Mano(int numCartasMano,Lista<Carta> cartasMano){
+        this.numCartasMano=numCartasMano;
         this.cartasMano=cartasMano;
     }
     
-    public Mano(int numCartas){
-        this.numCartas=numCartas;
+    public Mano(int numCartasMano){
+        this.numCartasMano=numCartasMano;
     }
     
     public void aniadirCartaMano(Carta c){
@@ -28,6 +28,15 @@ public class Mano {
     public void quitarCartaMano(Carta c){
         
     }
+
+    public int getNumCartasMano() {
+        return numCartasMano;
+    }
+
+    public Lista<Carta> getCartasMano() {
+        return cartasMano;
+    }
+
     
     @Override
     public String toString(){
