@@ -23,11 +23,11 @@ public class Mano {
     }
     
     public void aniadirCartaMano(Carta c){
-        
+        cartasMano.insertarPrincipio(c);
     }
     
     public void quitarCartaMano(Carta c){
-        
+        cartasMano.suprimir(c);
     }
 
     public int getNumCartasMano() {
@@ -44,7 +44,7 @@ public class Mano {
         StringBuilder toRet=new StringBuilder();
         Lista<Carta> temp=new ListaEnlazada<>();
         
-        toRet.append("Lista de Cartas:");
+        toRet.append("Lista de cartas de la mano:");
         for(Carta i:cartasMano){
             toRet.append("\n\t").append(i.toString());
             temp.insertarPrincipio(i);
