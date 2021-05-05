@@ -18,8 +18,7 @@ public class CartasMesa {
         cartasMesa=new ListaEnlazada<>();
     }
     
-    public void ponerSobreMesa(Baraja b,Carta c){
-        
+    public void ponerSobreMesa(Carta c){
     }
     
     public void retirarCartaMesa(Carta c){
