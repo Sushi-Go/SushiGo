@@ -5,14 +5,14 @@ import java.util.Scanner;
 public class ES {
 
     public static Scanner scanner = new Scanner(System.in);
-
+    
     /**
-     * Devuelve una cadena no vacía leída por teclado
-     *
+     * Devuelve una cadena leída por teclado
      * @param mensaje literal que se imprime por pantalla al usuario
+     * @param permiteVacia indica si se admite una cadena en blanco 
      * @return la cadena leída, como String
      */
-    public static String pideCadena(String mensaje) {
+    public static String pideCadena(String mensaje, boolean permiteVacia) {
         String toret = "";
         do {
             System.out.print(mensaje);
@@ -22,8 +22,16 @@ public class ES {
     }
 
     /**
+     * Devuelve una cadena leída por teclado
+     * @param mensaje literal que se imprime por pantalla al usuario
+     * @return la cadena leída, como String
+     */
+    public static String pideCadena(String mensaje) {
+        return pideCadena(mensaje, false);
+    }
+    
+    /**
      * Devuelve un entero leído por teclado
-     *
      * @param mensaje literal que se imprime por pantalla al usuario
      * @return el entero, como int
      */
@@ -47,7 +55,6 @@ public class ES {
 
     /**
      * Devuelve un real leído por teclado
-     *
      * @param mensaje literal que se imprime por pantalla al usuario
      * @return el real leído, como double
      */
@@ -71,7 +78,6 @@ public class ES {
 
     /**
      * Devuelve un carácter leído por teclado
-     *
      * @param mensaje literal que se imprime por pantalla al usuario
      * @return el carácter leído, como char
      */
