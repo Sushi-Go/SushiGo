@@ -4,16 +4,15 @@
  */
 package com.uvigo.proyectosushigo.IU;
 
-import com.uvigo.poyectosushigo.CORE.Jugador;
+import com.uvigo.poyectosushigo.CORE.*;
 import static com.uvigo.proyectosushigo.IU.ES.*;
-import java.util.Scanner;
+import static com.uvigo.proyectosushigo.IU.Main.RONDAS;
 
 public class Juego {
 
-    private static Jugador[] jugadores;
-    private int rondaActual;
-
     public static void inicio() {
+
+        Jugador[] jugadores;
 
         //Texto de introducción, título, etc
         System.out.println("");
@@ -21,7 +20,19 @@ public class Juego {
         //Obtenemos el número de jugadores y sus nombres
         System.out.println("El mínimo de jugadores es 2, y el máximo 5");
         jugadores = new Jugador[pideNumJugadores()];
-        leeJugadores();
+        leeJugadores(jugadores);
+
+        //Cada iteración es una ronda
+        for (int ronda = 1; ronda <= RONDAS; ronda++) {
+
+            //Repartimos cartas
+            Baraja baraja = new Baraja();
+            baraja.barajar();
+            repartirCartas(jugadores, baraja);
+            
+            //
+
+        }
 
     }
 
@@ -42,7 +53,7 @@ public class Juego {
     /**
      * Crea los jugadores leyendo los nombres de teclado
      */
-    public static void leeJugadores() {
+    public static void leeJugadores(Jugador[] jugadores) {
         System.out.println("Introduce los nombres de cada jugador");
         for (int i = 0; i < jugadores.length; i++) {
             String nombre = pideCadena("Jugador " + (i + 1));
@@ -53,25 +64,27 @@ public class Juego {
     /**
      * Muestra por pantalla el estado actual de la mesa
      */
-    public static void mostrarMesa() {
+    public static void mostrarMesa(Jugador[] jugadores) {
         System.out.println("Estado actual de la mesa\n");
 
         for (Jugador j : jugadores) {
             System.out.println(j.getNombre());
-            //
+            System.out.println(j.getCartasMesa().toString());
         }
     }
 
-    public int getRondaActual() {
-        return rondaActual;
-    }
-
-    public void setRondaActual(int rondaActual) {
-        this.rondaActual = rondaActual;
-    }
-
-    public void anhadeRonda() {
-        setRondaActual(getRondaActual() + 1);
+    /**
+     * Reparte el número correspondiente de cartas a la mano de cada jugador
+     *
+     * @param jugadores array de jugadores que reciben las cartas
+     * @param baraja baraja con las cartas (ya barajada)
+     */
+    public static void repartirCartas(Jugador[] jugadores, Baraja baraja) {
+        for (Jugador j : jugadores) {
+            for (int i = 0; i < (11 - jugadores.length); i++) {
+                j.getMano().añadirCartaMano(baraja.darCarta());
+            }
+        }
     }
 
 }
