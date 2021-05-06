@@ -37,6 +37,10 @@ public class Mano {
     public Lista<Carta> getCartasMano() {
         return cartasMano;
     }
+
+    public void setCartasMano(Lista<Carta> cartasMano) {
+        this.cartasMano = cartasMano;
+    }
     
     @Override
     public String toString(){
