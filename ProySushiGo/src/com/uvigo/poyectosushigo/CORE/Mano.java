@@ -41,14 +41,11 @@ public class Mano {
     @Override
     public String toString(){
         StringBuilder toRet=new StringBuilder();
-        Lista<Carta> temp=new ListaEnlazada<>();
         
         toRet.append("Lista de cartas de la mano:");
         for(Carta i:cartasMano){
             toRet.append("\n\t").append(i.toString());
-            temp.insertarPrincipio(i);
         }
-        cartasMano=temp;
         
         return toRet.toString();
     }
