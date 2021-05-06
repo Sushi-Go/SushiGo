@@ -5,6 +5,7 @@
 package com.uvigo.proyectosushigo.IU;
 
 import com.uvigo.poyectosushigo.CORE.*;
+import com.uvigo.poyectosushigo.CORE.carta.*;
 import static com.uvigo.proyectosushigo.IU.ES.*;
 import static com.uvigo.proyectosushigo.IU.Main.RONDAS;
 
@@ -29,8 +30,29 @@ public class Juego {
             Baraja baraja = new Baraja();
             baraja.barajar();
             repartirCartas(jugadores, baraja);
-            
-            //
+
+            //Cada iteración es una serie de turnos (todos los jugadores)
+            while (!manosVacias(jugadores)) {
+                Carta[] pendientes = new Carta[jugadores.length];
+
+                //Cada iteración es un turno
+                for (int i = 0; i < jugadores.length; i++) {
+
+                    //Mostramos información y pedimos que juegue una carta
+                    mostrarMesa(jugadores);
+                    System.out.println("Tu mano:");
+                    System.out.println(jugadores[i].getMano().toString());
+                    int jugada = pideEntero("Selecciona una carta: ");
+
+                    //Movemos la carta de la mano a las pendientes
+                    pendientes[i] = jugadores[i].getMano().quitarCarta(jugada));
+                }
+                
+                //Ponemos las cartas pendientes de cada jugador en la mesa
+                for (int i = 0; i < jugadores.length; i++) {
+                    jugadores[i].getCartasMesa().ponerSobreMesa(pendientes[i]);
+                }
+            }
 
         }
 
@@ -69,7 +91,7 @@ public class Juego {
 
         for (Jugador j : jugadores) {
             System.out.println(j.getNombre());
-            System.out.println(j.getCartasMesa().toString());
+            System.out.println("\n" + j.getCartasMesa().toString() + "\n");
         }
     }
 
@@ -80,8 +102,10 @@ public class Juego {
      * @param baraja baraja con las cartas (ya barajada)
      */
     public static void repartirCartas(Jugador[] jugadores, Baraja baraja) {
+        int cartasPorJugador = 11 - jugadores.length;
+
         for (Jugador j : jugadores) {
-            for (int i = 0; i < (11 - jugadores.length); i++) {
+            for (int i = 0; i < cartasPorJugador; i++) {
                 j.getMano().añadirCartaMano(baraja.darCarta());
             }
         }
