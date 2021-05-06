@@ -23,12 +23,12 @@ public class Juego {
         jugadores = new Jugador[pideNumJugadores()];
         leeJugadores(jugadores);
 
+        //Creamos la baraja
+        Baraja baraja = new Baraja();
+        baraja.barajar();
+
         //Cada iteración es una ronda
         for (int ronda = 1; ronda <= RONDAS; ronda++) {
-
-            //Repartimos cartas
-            Baraja baraja = new Baraja();
-            baraja.barajar();
             repartirCartas(jugadores, baraja);
 
             //Cada iteración es una serie de turnos (todos los jugadores)
@@ -38,23 +38,35 @@ public class Juego {
                 //Cada iteración es un turno
                 for (int i = 0; i < jugadores.length; i++) {
 
-                    //Mostramos información y pedimos que juegue una carta
+                    //Mostramos información 
                     mostrarMesa(jugadores);
                     System.out.println("Tu mano:");
                     System.out.println(jugadores[i].getMano().toString());
-                    int jugada = pideEntero("Selecciona una carta: ");
 
-                    //Movemos la carta de la mano a las pendientes
-                    pendientes[i] = jugadores[i].getMano().quitarCarta(jugada));
+                    //Movemos la carta jugada de la mano a las pendientes
+                    //(Para que todos jueguen la carta "a la vez")
+                    int jugada = pideEntero("Selecciona una carta: ");
+                    pendientes[i] = jugadores[i].getMano().quitarCarta(jugada);
                 }
-                
+
                 //Ponemos las cartas pendientes de cada jugador en la mesa
                 for (int i = 0; i < jugadores.length; i++) {
                     jugadores[i].getCartasMesa().ponerSobreMesa(pendientes[i]);
                 }
+
+                //Calculamos y mostramos los resultados de la ronda
+                calcularPuntos(jugadores, ronda);
+                System.out.println("\nResultados de la ronda " + ronda + ":");
+                mostrarPuntos(jugadores);
             }
 
         }
+
+        //Al acabar todas las rondas mostramos los resultados y el ganador
+        System.out.println("\nResultados finales:");
+        mostrarPuntos(jugadores);
+        System.out.println("\nEl ganador es..."
+                + ganador(jugadores).getNombre() + "! Enhorabuena!");
 
     }
 
@@ -74,6 +86,8 @@ public class Juego {
 
     /**
      * Crea los jugadores leyendo los nombres de teclado
+     *
+     * @param jugadores array de jugadores
      */
     public static void leeJugadores(Jugador[] jugadores) {
         System.out.println("Introduce los nombres de cada jugador");
@@ -87,7 +101,7 @@ public class Juego {
      * Muestra por pantalla el estado actual de la mesa
      */
     public static void mostrarMesa(Jugador[] jugadores) {
-        System.out.println("Estado actual de la mesa\n");
+        System.out.println("\nEstado actual de la mesa\n");
 
         for (Jugador j : jugadores) {
             System.out.println(j.getNombre());
@@ -98,7 +112,7 @@ public class Juego {
     /**
      * Reparte el número correspondiente de cartas a la mano de cada jugador
      *
-     * @param jugadores array de jugadores que reciben las cartas
+     * @param jugadores array de jugadores
      * @param baraja baraja con las cartas (ya barajada)
      */
     public static void repartirCartas(Jugador[] jugadores, Baraja baraja) {
@@ -109,6 +123,63 @@ public class Juego {
                 j.getMano().añadirCartaMano(baraja.darCarta());
             }
         }
+    }
+
+    /**
+     * Indica si los jugadores tienen cartas en la mano
+     *
+     * @param jugadores array de jugadores
+     * @return true solo si ningún jugador tiene cartas en la mano, false en
+     * otro caso
+     */
+    public static boolean manosVacias(Jugador[] jugadores) {
+        for (Jugador j : jugadores) {
+            if (j.getMano().getCartasMano().esVacio()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Guarda la puntuación de la ronda en base a las cartas de la mesa
+     *
+     * @param jugadores array de jugadores
+     * @param ronda
+     */
+    public static void calcularPuntos(Jugador[] jugadores, int ronda) {
+        for (Jugador j : jugadores) {
+            j.addPuntos(j.getCartasMesa().calcularPuntuacion(), ronda);
+        }
+    }
+
+    /**
+     * Muestra las puntuaciones de los jugadores
+     *
+     * @param jugadores array de jugadores
+     */
+    public static void mostrarPuntos(Jugador[] jugadores) {
+        System.out.println("");
+        for (Jugador j : jugadores) {
+            System.out.println(j.getNombre() + ": " + j.getPuntos());
+        }
+        System.out.println("");
+    }
+
+    /**
+     * Devuelve el jugador con más puntos
+     *
+     * @param jugadores array de jugadores
+     * @return el jugador con una puntación mayor
+     */
+    public static Jugador ganador(Jugador[] jugadores) {
+        Jugador toret = jugadores[0];
+        for (int i = 1; i < jugadores.length; i++) {
+            if (jugadores[i].getPuntos() > toret.getPuntos()) {
+                toret = jugadores[i];
+            }
+        }
+        return toret;
     }
 
 }
