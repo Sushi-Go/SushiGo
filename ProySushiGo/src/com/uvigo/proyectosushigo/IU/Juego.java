@@ -53,12 +53,15 @@ public class Juego {
                 for (int i = 0; i < jugadores.length; i++) {
                     jugadores[i].getCartasMesa().ponerSobreMesa(pendientes[i]);
                 }
+                //Movemos la cartas de las manos a otros jugadores
+                rotarManos(jugadores);
 
-                //Calculamos y mostramos los resultados de la ronda
-                calcularPuntos(jugadores, ronda);
-                System.out.println("\nResultados de la ronda " + ronda + ":");
-                mostrarPuntos(jugadores);
             }
+            //Calculamos y mostramos los resultados de la ronda
+            calcularPuntos(jugadores, ronda);
+            System.out.println("\nResultados de la ronda " + ronda + ":");
+            mostrarPuntos(jugadores);
+            pulsaEnter();
 
         }
 
@@ -75,7 +78,7 @@ public class Juego {
      *
      * @return el número de jugadores, como entero
      */
-    public static int pideNumJugadores() {
+    private static int pideNumJugadores() {
         int toret = pideEntero("Número de jugadores: ");
 
         while (toret < 2 || toret > 5) {
@@ -89,7 +92,7 @@ public class Juego {
      *
      * @param jugadores array de jugadores
      */
-    public static void leeJugadores(Jugador[] jugadores) {
+    private static void leeJugadores(Jugador[] jugadores) {
         System.out.println("Introduce los nombres de cada jugador");
         for (int i = 0; i < jugadores.length; i++) {
             String nombre = pideCadena("Jugador " + (i + 1));
@@ -99,8 +102,10 @@ public class Juego {
 
     /**
      * Muestra por pantalla el estado actual de la mesa
+     *
+     * @param jugadores array de jugadores
      */
-    public static void mostrarMesa(Jugador[] jugadores) {
+    private static void mostrarMesa(Jugador[] jugadores) {
         System.out.println("\nEstado actual de la mesa\n");
 
         for (Jugador j : jugadores) {
@@ -115,7 +120,7 @@ public class Juego {
      * @param jugadores array de jugadores
      * @param baraja baraja con las cartas (ya barajada)
      */
-    public static void repartirCartas(Jugador[] jugadores, Baraja baraja) {
+    private static void repartirCartas(Jugador[] jugadores, Baraja baraja) {
         int cartasPorJugador = 11 - jugadores.length;
 
         for (Jugador j : jugadores) {
@@ -132,7 +137,7 @@ public class Juego {
      * @return true solo si ningún jugador tiene cartas en la mano, false en
      * otro caso
      */
-    public static boolean manosVacias(Jugador[] jugadores) {
+    private static boolean manosVacias(Jugador[] jugadores) {
         for (Jugador j : jugadores) {
             if (j.getMano().getCartasMano().esVacio()) {
                 return false;
@@ -142,12 +147,26 @@ public class Juego {
     }
 
     /**
+     * Mueve la mano de cada jugador al situado a su izquierda
+     *
+     * @param jugadores array de jugadores
+     */
+    private static void rotarManos(Jugador[] jugadores) {
+        Mano mano1 = jugadores[0].getMano();
+
+        for (int i = 0; i < (jugadores.length - 1); i++) {
+            jugadores[i].setMano(jugadores[i + 1].getMano());
+        }
+        jugadores[jugadores.length - 1].setMano(mano1);
+    }
+
+    /**
      * Guarda la puntuación de la ronda en base a las cartas de la mesa
      *
      * @param jugadores array de jugadores
      * @param ronda
      */
-    public static void calcularPuntos(Jugador[] jugadores, int ronda) {
+    private static void calcularPuntos(Jugador[] jugadores, int ronda) {
         for (Jugador j : jugadores) {
             j.addPuntos(j.getCartasMesa().calcularPuntuacion(), ronda);
         }
@@ -158,7 +177,7 @@ public class Juego {
      *
      * @param jugadores array de jugadores
      */
-    public static void mostrarPuntos(Jugador[] jugadores) {
+    private static void mostrarPuntos(Jugador[] jugadores) {
         System.out.println("");
         for (Jugador j : jugadores) {
             System.out.println(j.getNombre() + ": " + j.getPuntos());
@@ -167,12 +186,20 @@ public class Juego {
     }
 
     /**
+     * Detiene el programa hasta que el usuario pulsa enter
+     */
+    private static void pulsaEnter() {
+        System.out.print("Pulsa enter para continuar . . .");
+        ES.scanner.nextLine();
+    }
+
+    /**
      * Devuelve el jugador con más puntos
      *
      * @param jugadores array de jugadores
      * @return el jugador con una puntación mayor
      */
-    public static Jugador ganador(Jugador[] jugadores) {
+    private static Jugador ganador(Jugador[] jugadores) {
         Jugador toret = jugadores[0];
         for (int i = 1; i < jugadores.length; i++) {
             if (jugadores[i].getPuntos() > toret.getPuntos()) {
