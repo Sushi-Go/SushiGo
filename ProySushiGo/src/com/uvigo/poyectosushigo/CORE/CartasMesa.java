@@ -46,10 +46,6 @@ public class CartasMesa {
         
     }
 
-    public void visualizarMesa() {
-
-    }
-
     public Lista<Pila<Carta>> getCartasMesa() {
         return cartasMesa;
     }
@@ -64,6 +60,20 @@ public class CartasMesa {
 
     public void setNumCartasMesa(int numCartasMesa) {
         this.numCartasMesa = numCartasMesa;
+    }
+    
+    @Override
+    public String toString(){
+        StringBuilder toRet=new StringBuilder();
+        Pila<Carta> temp=new EnlazadaPila<>();
+        
+        toRet.append("\nCartas: ");
+        for(Pila<Carta> i:cartasMesa){
+            temp=i;
+            toRet.append("\n\t").append(i.pop().toString());
+        }
+        
+        return toRet.toString();
     }
 
 }
