@@ -46,7 +46,7 @@ public class Juego {
                     //Movemos la carta jugada de la mano a las pendientes
                     //(Para que todos jueguen la carta "a la vez")
                     int jugada = pideEntero("Selecciona una carta: ");
-                    pendientes[i] = jugadores[i].getMano().quitarCarta(jugada);
+                    pendientes[i] = jugadores[i].getMano().getCartaMano(jugada);
                 }
 
                 //Ponemos las cartas pendientes de cada jugador en la mesa
@@ -161,7 +161,7 @@ public class Juego {
     public static void mostrarPuntos(Jugador[] jugadores) {
         System.out.println("");
         for (Jugador j : jugadores) {
-            System.out.println(j.getNombre() + ": " + j.getPuntos());
+            System.out.println(j.getNombre() + ": " + j.getPuntosAcumulados());
         }
         System.out.println("");
     }
@@ -175,7 +175,7 @@ public class Juego {
     public static Jugador ganador(Jugador[] jugadores) {
         Jugador toret = jugadores[0];
         for (int i = 1; i < jugadores.length; i++) {
-            if (jugadores[i].getPuntos() > toret.getPuntos()) {
+            if (jugadores[i].getPuntosAcumulados() > toret.getPuntosAcumulados()) {
                 toret = jugadores[i];
             }
         }
