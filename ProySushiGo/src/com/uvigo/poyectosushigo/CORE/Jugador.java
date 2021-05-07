@@ -6,7 +6,9 @@
  */
 package com.uvigo.poyectosushigo.CORE;
 
-import com.uvigo.poyectosushigo.CORE.carta.Carta;
+import com.uvigo.poyectosushigo.CORE.carta.*;
+import lista.Lista;
+import pila.Pila;
 
 public class Jugador {
 
@@ -54,5 +56,17 @@ public class Jugador {
     public Carta elegirCarta(Carta c) {
         return mano.getCartaMano(c);
     }
+    
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Jugador: ").append(nombre);
+        sb.append("\nmano: ").append(mano);
+        sb.append("\npuntosAcumulados: ").append(puntosAcumulados);
+        sb.append("\npuntosRondaActual: ").append(puntosRondaActual);
+        return sb.toString();
+    }
+    
 
 }

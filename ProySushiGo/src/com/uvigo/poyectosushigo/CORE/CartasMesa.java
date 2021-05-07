@@ -25,7 +25,7 @@ public class CartasMesa {
     }
 
     public void ponerSobreMesa(Carta c) {
-        
+
     }
 
     public void retirarCartaMesa(Carta c) {
@@ -37,7 +37,7 @@ public class CartasMesa {
     }
 
     public void limpiarFinalRonda() {
-        for(Pila<Carta> i:cartasMesa){
+        for (Pila<Carta> i : cartasMesa) {
             i.pop();
         }
     }
@@ -61,18 +61,18 @@ public class CartasMesa {
     public void setNumCartasMesa(int numCartasMesa) {
         this.numCartasMesa = numCartasMesa;
     }
-    
+
     @Override
-    public String toString(){
-        StringBuilder toRet=new StringBuilder();
-        Pila<Carta> temp=new EnlazadaPila<>();
-        
+    public String toString() {
+        StringBuilder toRet = new StringBuilder();
+        Pila<Carta> temp = new EnlazadaPila<>();
+
         toRet.append("\nCartas: ");
-        for(Pila<Carta> i:cartasMesa){
-            temp=i;
+        for (Pila<Carta> i : cartasMesa) {
+            temp = i;
             toRet.append("\n\t").append(i.pop().toString());
         }
-        
+
         return toRet.toString();
     }
 

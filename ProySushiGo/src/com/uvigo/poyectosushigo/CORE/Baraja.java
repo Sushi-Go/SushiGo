@@ -65,9 +65,12 @@ public class Baraja {
     }
 
     public void barajar() {
-            Pila<Carta> aux1=null;
+            Pila<Carta> aux1=null;//Crea dos pilas auxiliares
             Pila<Carta> aux2=null;
-            
+            //Se repite varias veces para aumentar la aleatoriedad
+            for(int i=0; i<10;i++){
+            //mientras que la baraja no este vacia:
+            //introduce aleatoriamente los elementos en dos arrays
             while(!baraja.esVacio()){
                  int aleatorio= (int)Math.random()*10; 
                  if(aleatorio<5){
@@ -77,12 +80,13 @@ public class Baraja {
                      aux2.push(baraja.pop());
                  }
             }
-            
+            //se devuelven a la pila principal
             while(!aux1.esVacio()){
                 baraja.push(aux1.pop());
             }
             while(!aux2.esVacio()){
                 baraja.push(aux2.pop());
+            }
             }
     }
 
