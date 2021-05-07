@@ -47,6 +47,15 @@ public class Mano {
         return c;
 
     }
+    
+    public Carta getCartaMano(Carta c){
+        Carta car;
+        
+        List l=(List) getCartasMano();
+        car=(Carta) l.get(l.indexOf(c));
+        
+        return car;
+    }
 
     public int getNumCartasMano() {
         return numCartasMano;
