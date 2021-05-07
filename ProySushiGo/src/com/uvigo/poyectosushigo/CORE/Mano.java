@@ -4,15 +4,53 @@
 * Funcionalidad: añadir carta a la mano, quitar carta de la mano, visualizar cartas de la mano,...
  */
 package com.uvigo.poyectosushigo.CORE;
+
 import com.uvigo.poyectosushigo.CORE.carta.*;
+import lista.*;
+
 public class Mano {
+    private int numCartasMano;
+    private Lista<Carta> cartasMano;
 
-    private int numCartas;
-    private Carta[] cartasMano;
-
-    public Mano(int numCartas, Carta[] cartasMano) {
-        this.numCartas = numCartas;
-        this.cartasMano = cartasMano;
+    public Mano(Lista<Carta> cartasMano){
+        numCartasMano=cartasMano.tamaño();
+        this.cartasMano=cartasMano;
+    }
+    
+    public Mano(){
+        numCartasMano=0;
+        cartasMano=new ListaEnlazada<>();
+    }
+    
+    public void añadirCartaMano(Carta c){
+        cartasMano.insertarPrincipio(c);
+    }
+    
+    public void quitarCartaMano(Carta c){
+        cartasMano.suprimir(c);
     }
 
+    public int getNumCartasMano() {
+        return numCartasMano;
+    }
+
+    public Lista<Carta> getCartasMano() {
+        return cartasMano;
+    }
+
+    public void setCartasMano(Lista<Carta> cartasMano) {
+        this.cartasMano = cartasMano;
+    }
+    
+    @Override
+    public String toString(){
+        StringBuilder toRet=new StringBuilder();
+        
+        toRet.append("Lista de cartas de la mano:");
+        for(Carta i:cartasMano){
+            toRet.append("\n\t").append(i.toString());
+        }
+        
+        return toRet.toString();
+    }
 }

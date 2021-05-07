@@ -6,13 +6,47 @@
 package com.uvigo.poyectosushigo.CORE;
 
 import com.uvigo.poyectosushigo.CORE.carta.*;
+import lista.*;
+import pila.*;
 
 public class CartasMesa {
-    private Carta[] cartasMesa;
+    private Lista<Pila<Carta>> cartasMesa;
     private int numCartasMesa;
     
+    public CartasMesa(){
+        numCartasMesa=0;
+        cartasMesa=new ListaEnlazada<>();
+    }
     
+    public CartasMesa(Lista<Pila<Carta>> cartasMesa){
+        this.cartasMesa=cartasMesa;
+        numCartasMesa=cartasMesa.tamaño();
+    }
+    
+    public void ponerSobreMesa(Carta c){
 
+    }
+    
+    public void retirarCartaMesa(Carta c){
 
-	
+    }
+    
+    public int calcularPuntuacion(){
+        
+    }
+    
+    public void limpiarFinalRonda(){
+
+        
+    }
+    
+    
+    public int calcularNumRollitos(){
+        
+    }
+    
+    public void visualizarMesa(){
+        
+    }
+
 }

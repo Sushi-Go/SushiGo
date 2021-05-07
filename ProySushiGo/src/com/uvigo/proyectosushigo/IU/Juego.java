@@ -4,74 +4,182 @@
  */
 package com.uvigo.proyectosushigo.IU;
 
-import com.uvigo.poyectosushigo.CORE.Jugador;
-import java.util.Scanner;
+import com.uvigo.poyectosushigo.CORE.*;
+import com.uvigo.poyectosushigo.CORE.carta.*;
+import static com.uvigo.proyectosushigo.IU.ES.*;
+import static com.uvigo.proyectosushigo.IU.Main.RONDAS;
 
 public class Juego {
 
-    private static Jugador[] jugadores;
-    private static int numJugadores;
-    private int cartasPorJugador;
-    private int rondaActual;
-
     public static void inicio() {
-//Primero se obtiene el numero de jugadores
-    numJugadores= cuantosJugadores();
-//Se crea el array de jugadores de la partida
-    jugadores= new Jugador[numJugadores];
-//Se añaden los jugadores al array
-    
-  
-    
-        
+
+        Jugador[] jugadores;
+
+        //Texto de introducción, título, etc
+        System.out.println("");
+
+        //Obtenemos el número de jugadores y sus nombres
+        System.out.println("El mínimo de jugadores es 2, y el máximo 5");
+        jugadores = new Jugador[pideNumJugadores()];
+        leeJugadores(jugadores);
+
+        //Creamos la baraja
+        Baraja baraja = new Baraja();
+        baraja.barajar();
+
+        //Cada iteración es una ronda
+        for (int ronda = 1; ronda <= RONDAS; ronda++) {
+            repartirCartas(jugadores, baraja);
+
+            //Cada iteración es una serie de turnos (todos los jugadores)
+            while (!manosVacias(jugadores)) {
+                Carta[] pendientes = new Carta[jugadores.length];
+
+                //Cada iteración es un turno
+                for (int i = 0; i < jugadores.length; i++) {
+
+                    //Mostramos información 
+                    mostrarMesa(jugadores);
+                    System.out.println("Tu mano:");
+                    System.out.println(jugadores[i].getMano().toString());
+
+                    //Movemos la carta jugada de la mano a las pendientes
+                    //(Para que todos jueguen la carta "a la vez")
+                    int jugada = pideEntero("Selecciona una carta: ");
+                    pendientes[i] = jugadores[i].getMano().quitarCarta(jugada);
+                }
+
+                //Ponemos las cartas pendientes de cada jugador en la mesa
+                for (int i = 0; i < jugadores.length; i++) {
+                    jugadores[i].getCartasMesa().ponerSobreMesa(pendientes[i]);
+                }
+
+                //Calculamos y mostramos los resultados de la ronda
+                calcularPuntos(jugadores, ronda);
+                System.out.println("\nResultados de la ronda " + ronda + ":");
+                mostrarPuntos(jugadores);
+            }
+
+        }
+
+        //Al acabar todas las rondas mostramos los resultados y el ganador
+        System.out.println("\nResultados finales:");
+        mostrarPuntos(jugadores);
+        System.out.println("\nEl ganador es..."
+                + ganador(jugadores).getNombre() + "! Enhorabuena!");
 
     }
 
-    public Jugador[] getJugadores() {
-        return jugadores;
+    /**
+     * Pide el número de jugadores por teclado y lo devuelve
+     *
+     * @return el número de jugadores, como entero
+     */
+    public static int pideNumJugadores() {
+        int toret = pideEntero("Número de jugadores: ");
+
+        while (toret < 2 || toret > 5) {
+            toret = pideEntero("Número de jugadores: ");
+        }
+        return toret;
     }
 
-    public int getNumJugadores() {
-        return numJugadores;
+    /**
+     * Crea los jugadores leyendo los nombres de teclado
+     *
+     * @param jugadores array de jugadores
+     */
+    public static void leeJugadores(Jugador[] jugadores) {
+        System.out.println("Introduce los nombres de cada jugador");
+        for (int i = 0; i < jugadores.length; i++) {
+            String nombre = pideCadena("Jugador " + (i + 1));
+            jugadores[i] = new Jugador(nombre);
+        }
     }
 
-    public int getCartasPorJugador() {
-        return cartasPorJugador;
+    /**
+     * Muestra por pantalla el estado actual de la mesa
+     */
+    public static void mostrarMesa(Jugador[] jugadores) {
+        System.out.println("\nEstado actual de la mesa\n");
+
+        for (Jugador j : jugadores) {
+            System.out.println(j.getNombre());
+            System.out.println("\n" + j.getCartasMesa().toString() + "\n");
+        }
     }
 
-    public int getRondaActual() {
-        return rondaActual;
+    /**
+     * Reparte el número correspondiente de cartas a la mano de cada jugador
+     *
+     * @param jugadores array de jugadores
+     * @param baraja baraja con las cartas (ya barajada)
+     */
+    public static void repartirCartas(Jugador[] jugadores, Baraja baraja) {
+        int cartasPorJugador = 11 - jugadores.length;
+
+        for (Jugador j : jugadores) {
+            for (int i = 0; i < cartasPorJugador; i++) {
+                j.getMano().añadirCartaMano(baraja.darCarta());
+            }
+        }
     }
 
-    public static void setJugadores(Jugador[] jugadores) {
-        Juego.jugadores = jugadores;
+    /**
+     * Indica si los jugadores tienen cartas en la mano
+     *
+     * @param jugadores array de jugadores
+     * @return true solo si ningún jugador tiene cartas en la mano, false en
+     * otro caso
+     */
+    public static boolean manosVacias(Jugador[] jugadores) {
+        for (Jugador j : jugadores) {
+            if (j.getMano().getCartasMano().esVacio()) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public static void setNumJugadores(int numJugadores) {
-        Juego.numJugadores = numJugadores;
+    /**
+     * Guarda la puntuación de la ronda en base a las cartas de la mesa
+     *
+     * @param jugadores array de jugadores
+     * @param ronda
+     */
+    public static void calcularPuntos(Jugador[] jugadores, int ronda) {
+        for (Jugador j : jugadores) {
+            j.addPuntos(j.getCartasMesa().calcularPuntuacion(), ronda);
+        }
     }
 
-    public void setCartasPorJugador(int cartasPorJugador) {
-        this.cartasPorJugador = cartasPorJugador;
+    /**
+     * Muestra las puntuaciones de los jugadores
+     *
+     * @param jugadores array de jugadores
+     */
+    public static void mostrarPuntos(Jugador[] jugadores) {
+        System.out.println("");
+        for (Jugador j : jugadores) {
+            System.out.println(j.getNombre() + ": " + j.getPuntos());
+        }
+        System.out.println("");
     }
 
-    public void setRondaActual(int rondaActual) {
-        this.rondaActual = rondaActual;
+    /**
+     * Devuelve el jugador con más puntos
+     *
+     * @param jugadores array de jugadores
+     * @return el jugador con una puntación mayor
+     */
+    public static Jugador ganador(Jugador[] jugadores) {
+        Jugador toret = jugadores[0];
+        for (int i = 1; i < jugadores.length; i++) {
+            if (jugadores[i].getPuntos() > toret.getPuntos()) {
+                toret = jugadores[i];
+            }
+        }
+        return toret;
     }
-    
-
-    public static int cuantosJugadores(){
-        int num;
-        Scanner sc= new Scanner(System.in);
-        System.out.println("Introduce el número de jugadores de la partida");
-        num=sc.nextInt();
-        return num;
-    }
-    
-    public void anhadeRonda(){
-        setRondaActual(getRondaActual()+1);
-    }
-    
-    
 
 }
