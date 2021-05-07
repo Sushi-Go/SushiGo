@@ -52,7 +52,7 @@ public class Jugador {
     }
 
     public void elegirCarta(Carta c) {
-
+        
     }
 
 }
