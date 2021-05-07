@@ -25,7 +25,7 @@ public class CartasMesa {
     }
 
     public void ponerSobreMesa(Carta c) {
-
+        
     }
 
     public void retirarCartaMesa(Carta c) {
@@ -37,11 +37,13 @@ public class CartasMesa {
     }
 
     public void limpiarFinalRonda() {
-
+        for(Pila<Carta> i:cartasMesa){
+            i.pop();
+        }
     }
 
     public int calcularNumRollitos() {
-
+        
     }
 
     public void visualizarMesa() {
