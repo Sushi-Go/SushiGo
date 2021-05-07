@@ -51,8 +51,8 @@ public class Jugador {
         this.puntosRondaActual = puntosRondaActual;
     }
 
-    public void elegirCarta(Carta c) {
-        
+    public Carta elegirCarta(Carta c) {
+        return mano.getCartaMano(c);
     }
 
 }
