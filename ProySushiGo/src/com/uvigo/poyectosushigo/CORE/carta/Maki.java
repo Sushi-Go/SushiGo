@@ -11,4 +11,14 @@ public class Maki extends Carta{
         this.numRollitos=numRollitos;
     }
 
+    public int getNumRollitos() {
+        return numRollitos;
+    }
+
+    public void setNumRollitos(int numRollitos) {
+        this.numRollitos = numRollitos;
+    }
+    
+    
+
 }

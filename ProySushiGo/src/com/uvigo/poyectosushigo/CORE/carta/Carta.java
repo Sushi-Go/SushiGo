@@ -14,6 +14,10 @@ public abstract class Carta {
         return nombre;
     }
     
+    
+    
+    
+    
     @Override
     public String toString(){
         return "[" + getNombre() + "]";

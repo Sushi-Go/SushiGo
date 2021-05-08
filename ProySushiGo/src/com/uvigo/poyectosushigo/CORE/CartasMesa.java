@@ -2,7 +2,7 @@
 * Representa las cartas que coloca el jugador en la mesa (únicamente las suyas).
 * Estructura: Se utilizarán TADs adecuados para su respresentación. En concreto:Una lista de pilas 
 * Funcionalidad: colocar una carta en la mesa, calcular la puntuación de las cartas de la mesa, calcular el número de rollitos, visualizar cartas de la mesa, descartar cartas de la mesa, etc
-*/
+ */
 package com.uvigo.poyectosushigo.CORE;
 
 import com.uvigo.poyectosushigo.CORE.carta.*;
@@ -10,43 +10,70 @@ import lista.*;
 import pila.*;
 
 public class CartasMesa {
+
     private Lista<Pila<Carta>> cartasMesa;
     private int numCartasMesa;
-    
-    public CartasMesa(){
-        numCartasMesa=0;
-        cartasMesa=new ListaEnlazada<>();
+
+    public CartasMesa() {
+        numCartasMesa = 0;
+        cartasMesa = new ListaEnlazada<>();
     }
-    
-    public CartasMesa(Lista<Pila<Carta>> cartasMesa){
-        this.cartasMesa=cartasMesa;
-        numCartasMesa=cartasMesa.tamaño();
+
+    public CartasMesa(Lista<Pila<Carta>> cartasMesa) {
+        this.cartasMesa = cartasMesa;
+        numCartasMesa = cartasMesa.tamaño();
     }
-    
-    public void ponerSobreMesa(Carta c){
+
+    public void ponerSobreMesa(Carta c) {
 
     }
-    
-    public void retirarCartaMesa(Carta c){
+
+    public void retirarCartaMesa(Carta c) {
 
     }
-    
-    public int calcularPuntuacion(){
-        
-    }
-    
-    public void limpiarFinalRonda(){
 
+    public int calcularPuntuacion() {
+
+    }
+
+    public void limpiarFinalRonda() {
+        for (Pila<Carta> i : cartasMesa) {
+            i.pop();
+        }
+    }
+
+    public int calcularNumRollitos() {
         
     }
-    
-    
-    public int calcularNumRollitos(){
-        
+
+    public Lista<Pila<Carta>> getCartasMesa() {
+        return cartasMesa;
     }
-    
-    public void visualizarMesa(){
-        
+
+    public void setCartasMesa(Lista<Pila<Carta>> cartasMesa) {
+        this.cartasMesa = cartasMesa;
+    }
+
+    public int getNumCartasMesa() {
+        return numCartasMesa;
+    }
+
+    public void setNumCartasMesa(int numCartasMesa) {
+        this.numCartasMesa = numCartasMesa;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder toRet = new StringBuilder();
+        Pila<Carta> temp = new EnlazadaPila<>();
+
+        toRet.append("\nCartas: ");
+        for (Pila<Carta> i : cartasMesa) {
+            temp = i;
+            toRet.append("\n\t").append(i.pop().toString());
+        }
+
+        return toRet.toString();
     }
 
 }

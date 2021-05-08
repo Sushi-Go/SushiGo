@@ -1,6 +1,7 @@
 package com.uvigo.poyectosushigo.CORE;
 
 import pila.*;
+import lista.*;
 import com.uvigo.poyectosushigo.CORE.carta.*;
 
 public class Baraja {
@@ -63,13 +64,35 @@ public class Baraja {
         }
     }
 
-    private void barajar() {
-
+    public void barajar() {
+            Pila<Carta> aux1=null;//Crea dos pilas auxiliares
+            Pila<Carta> aux2=null;
+            //Se repite varias veces para aumentar la aleatoriedad
+            for(int i=0; i<10;i++){
+            //mientras que la baraja no este vacia:
+            //introduce aleatoriamente los elementos en dos arrays
+            while(!baraja.esVacio()){
+                 int aleatorio= (int)Math.random()*10; 
+                 if(aleatorio<5){
+                     aux1.push(baraja.pop());
+                 }
+                 else{
+                     aux2.push(baraja.pop());
+                 }
+            }
+            //se devuelven a la pila principal
+            while(!aux1.esVacio()){
+                baraja.push(aux1.pop());
+            }
+            while(!aux2.esVacio()){
+                baraja.push(aux2.pop());
+            }
+            }
     }
 
     public Carta darCarta() {
         return baraja.pop();
-        //DEvuelve la primera carta en el mazo
+        //Devuelve la primera carta en el mazo
     }
 
 }
