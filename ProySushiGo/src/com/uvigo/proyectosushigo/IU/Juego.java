@@ -111,7 +111,7 @@ public class Juego {
 
         for (Jugador j : jugadores) {
             System.out.println(j.getNombre());
-            System.out.println("\n" + j.getCartasMesa().toString() + "\n");
+            System.out.println(j.getCartasMesa().toString() + "\n");
         }
     }
 
