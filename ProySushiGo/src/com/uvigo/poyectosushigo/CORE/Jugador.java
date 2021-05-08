@@ -16,7 +16,7 @@ public class Jugador {
     private Mano mano;
     private int puntosAcumulados;
     private int puntosRondaActual;
-    private Pila<Carta> cartasMesaJugador;
+    private CartasMesa cartasMesaJugador;
 
     public Jugador(String nombre) {
         this.nombre = nombre;
@@ -54,11 +54,11 @@ public class Jugador {
         this.puntosRondaActual = puntosRondaActual;
     }
 
-    public Pila<Carta> getCartasMesaJugador() {
+    public CartasMesa getCartasMesaJugador() {
         return cartasMesaJugador;
     }
 
-    public void setCartasMesaJugador(Pila<Carta> cartasMesaJugador) {
+    public void setCartasMesaJugador(CartasMesa cartasMesaJugador) {
         this.cartasMesaJugador = cartasMesaJugador;
     }
 
