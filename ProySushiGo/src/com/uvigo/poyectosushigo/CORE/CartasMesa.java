@@ -43,6 +43,14 @@ public class CartasMesa {
         cartasMesa.insertarPrincipio(temp);
         numCartasMesa--;
     }
+    
+    //retira la ultima carta de pilaRetirar y la inserta en pilaInsertar
+    public void retirarInsertarCarta(Pila<Carta> pilaRetirar,Pila<Carta> pilaInsertar){
+        Carta c=pilaRetirar.pop();
+        
+        pilaInsertar.push(c);
+    }
+    
 
     public int calcularPuntuacion() {
         
