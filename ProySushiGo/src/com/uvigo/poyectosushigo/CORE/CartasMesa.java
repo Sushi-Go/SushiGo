@@ -24,19 +24,21 @@ public class CartasMesa {
         numCartasMesa = cartasMesa.tamaño();
     }
 
-    public void ponerSobreMesa(Pila<Carta> cartasMesaJugador,Carta c) {
-        Pila<Carta> temp=cartasMesaJugador;
+    //Le añade la carta c a la pila seleccionada en pilaCartas
+    public void ponerSobreMesa(Pila<Carta> pilaCartas,Carta c) {
+        Pila<Carta> temp=pilaCartas;
         
-        cartasMesa.suprimir(cartasMesaJugador);
+        cartasMesa.suprimir(pilaCartas);
         temp.push(c);
         cartasMesa.insertarPrincipio(temp);
         numCartasMesa++;
     }
 
-    public void retirarCartaMesa(Pila<Carta> cartasMesaJugador) {
-        Pila<Carta> temp=cartasMesaJugador;
+    //retira la ultima carta de la pila seleccionada en pilaCartas
+    public void retirarCartaMesa(Pila<Carta> pilaCartas) {
+        Pila<Carta> temp=pilaCartas;
         
-        cartasMesa.suprimir(cartasMesaJugador);
+        cartasMesa.suprimir(pilaCartas);
         temp.pop();
         cartasMesa.insertarPrincipio(temp);
         numCartasMesa--;
