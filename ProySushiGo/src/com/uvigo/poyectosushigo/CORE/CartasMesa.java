@@ -33,12 +33,17 @@ public class CartasMesa {
         numCartasMesa++;
     }
 
-    public void retirarCartaMesa(Carta c) {
-
+    public void retirarCartaMesa(Pila<Carta> cartasMesaJugador) {
+        Pila<Carta> temp=cartasMesaJugador;
+        
+        cartasMesa.suprimir(cartasMesaJugador);
+        temp.pop();
+        cartasMesa.insertarPrincipio(temp);
+        numCartasMesa--;
     }
 
     public int calcularPuntuacion() {
-
+        
     }
 
     public void limpiarFinalRonda() {
