@@ -30,6 +30,7 @@ public class CartasMesa {
         cartasMesa.suprimir(cartasMesaJugador);
         temp.push(c);
         cartasMesa.insertarPrincipio(temp);
+        numCartasMesa++;
     }
 
     public void retirarCartaMesa(Carta c) {
