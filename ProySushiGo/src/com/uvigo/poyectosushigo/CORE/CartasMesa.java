@@ -43,7 +43,7 @@ public class CartasMesa {
     }
 
     public int calcularNumRollitos() {
-        
+
     }
 
     public Lista<Pila<Carta>> getCartasMesa() {
@@ -64,16 +64,53 @@ public class CartasMesa {
 
     @Override
     public String toString() {
-        StringBuilder toRet = new StringBuilder();
-        Pila<Carta> temp = new EnlazadaPila<>();
+        StringBuilder sb = new StringBuilder();
+        Lista<Pila<Carta>> copia = new ListaEnlazada<>();
+        int altura = 1;
 
-        toRet.append("\nCartas: ");
-        for (Pila<Carta> i : cartasMesa) {
-            temp = i;
-            toRet.append("\n\t").append(i.pop().toString());
+        for (Pila<Carta> p : cartasMesa) {
+            copia.insertarFinal(p);
+            if (p.tamaño() > altura) {
+                altura = p.tamaño();
+            }
         }
 
-        return toRet.toString();
+        while (altura > 0) {
+            for (Pila<Carta> p : copia) {
+                if (p.tamaño() == altura) {
+                    sb.append(cadenaCentrada(p.pop().toString(), 18));
+                } else {
+                    sb.append(cadenaCentrada("", 18));
+                }
+            }
+            altura--;
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Devuuelve una cadena alineada al centro
+     *
+     * @param cadena String que se pondrá en el medio
+     * @param lon longitud total de la cadena a devolver
+     * @return la cadena con los espacios necesarios a cada lado para que esté
+     * centrada y su longitud total sea lon, como String
+     */
+    private static String cadenaCentrada(String cadena, int lon) {
+        StringBuilder sb = new StringBuilder();
+        int izq = (lon - cadena.length()) / 2;
+        int der = (lon - cadena.length()) / 2 + (lon - cadena.length()) % 2;
+
+        for (int i = 0; i < izq; i++) {
+            sb.append(" ");
+        }
+        sb.append(cadena);
+        for (int i = 0; i < der; i++) {
+            sb.append(" ");
+        }
+        return sb.toString();
     }
 
 }
