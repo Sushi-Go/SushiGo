@@ -24,16 +24,36 @@ public class CartasMesa {
         numCartasMesa = cartasMesa.tamaño();
     }
 
-    public void ponerSobreMesa(Carta c) {
-
+    //Le añade la carta c a la pila seleccionada en pilaCartas
+    public void ponerSobreMesa(Pila<Carta> pilaCartas,Carta c) {
+        Pila<Carta> temp=pilaCartas;
+        
+        cartasMesa.suprimir(pilaCartas);
+        temp.push(c);
+        cartasMesa.insertarPrincipio(temp);
+        numCartasMesa++;
     }
 
-    public void retirarCartaMesa(Carta c) {
-
+    //retira la ultima carta de la pila seleccionada en pilaCartas
+    public void retirarCartaMesa(Pila<Carta> pilaCartas) {
+        Pila<Carta> temp=pilaCartas;
+        
+        cartasMesa.suprimir(pilaCartas);
+        temp.pop();
+        cartasMesa.insertarPrincipio(temp);
+        numCartasMesa--;
     }
+    
+    //retira la ultima carta de pilaRetirar y la inserta en pilaInsertar
+    public void retirarInsertarCarta(Pila<Carta> pilaRetirar,Pila<Carta> pilaInsertar){
+        Carta c=pilaRetirar.pop();
+        
+        pilaInsertar.push(c);
+    }
+    
 
     public int calcularPuntuacion() {
-
+        
     }
 
     public void limpiarFinalRonda() {
