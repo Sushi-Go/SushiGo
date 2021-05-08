@@ -37,25 +37,19 @@ public class Juego {
 
                 //Cada iteración es un turno
                 for (int i = 0; i < jugadores.length; i++) {
-
-                    //Mostramos información 
+                    //Mostramos el estado de la mesa
                     mostrarMesa(jugadores);
-                    System.out.println("Tu mano:");
-                    System.out.println(jugadores[i].getMano().toString());
-
-                    //Movemos la carta jugada de la mano a las pendientes
-                    //(Para que todos jueguen la carta "a la vez")
-                    int jugada = pideEntero("Selecciona una carta: ");
+                    //Pedimos una carta
+                    int jugada = pideCarta(jugadores[i].getMano());
+                    //La movemos a las pendientes
                     pendientes[i] = jugadores[i].getMano().getCartaMano(jugada);
                 }
-
                 //Ponemos las cartas pendientes de cada jugador en la mesa
                 for (int i = 0; i < jugadores.length; i++) {
                     jugadores[i].getCartasMesa().ponerSobreMesa(pendientes[i]);
                 }
                 //Movemos la cartas de las manos a otros jugadores
                 rotarManos(jugadores);
-
             }
             //Calculamos y mostramos los resultados de la ronda
             calcularPuntos(jugadores, ronda);
@@ -63,15 +57,12 @@ public class Juego {
             System.out.println("\nResultados de la ronda " + ronda + ":");
             mostrarPuntos(jugadores);
             pulsaEnter();
-
         }
-
         //Al acabar todas las rondas mostramos los resultados y el ganador
         System.out.println("\nResultados finales:");
         mostrarPuntos(jugadores);
         System.out.println("\nEl ganador es..."
                 + ganador(jugadores).getNombre() + "! Enhorabuena!");
-
     }
 
     /**
@@ -98,20 +89,6 @@ public class Juego {
         for (int i = 0; i < jugadores.length; i++) {
             String nombre = pideCadena("Jugador " + (i + 1));
             jugadores[i] = new Jugador(nombre);
-        }
-    }
-
-    /**
-     * Muestra por pantalla el estado actual de la mesa
-     *
-     * @param jugadores array de jugadores
-     */
-    private static void mostrarMesa(Jugador[] jugadores) {
-        System.out.println("\nEstado actual de la mesa\n");
-
-        for (Jugador j : jugadores) {
-            System.out.println(j.getNombre());
-            System.out.println(j.getCartasMesa().toString() + "\n");
         }
     }
 
@@ -148,6 +125,38 @@ public class Juego {
     }
 
     /**
+     * Muestra por pantalla el estado actual de la mesa
+     *
+     * @param jugadores array de jugadores
+     */
+    private static void mostrarMesa(Jugador[] jugadores) {
+        System.out.println("\nEstado actual de la mesa\n");
+
+        for (Jugador j : jugadores) {
+            System.out.println(j.getNombre());
+            System.out.println(j.getCartasMesa().toString() + "\n");
+        }
+    }
+
+    /**
+     * Devuelve el índice de la carta que quieres jugar el usuario
+     *
+     * @param mano mano del jugador que elige la carta
+     * @return el índice de la carta que elige el usuario, como int
+     */
+    private static int pideCarta(Mano mano) {
+        System.out.println("Tu mano: ");
+        System.out.println(mano.toString());
+        int toret;
+
+        do {
+            toret = pideEntero("Selecciona una carta: ");
+        } while (toret < 0 || toret > mano.getNumCartasMano());
+
+        return toret;
+    }
+
+    /**
      * Mueve la mano de cada jugador al situado a su izquierda
      *
      * @param jugadores array de jugadores
@@ -172,7 +181,7 @@ public class Juego {
             j.addPuntos(j.getCartasMesa().calcularPuntuacion(), ronda);
         }
     }
-    
+
     private static void limpiarMesa(Jugador[] jugadores) {
         for (Jugador j : jugadores) {
             j.getCartasMesa().limpiarFinalRonda();
@@ -186,7 +195,7 @@ public class Juego {
      */
     private static void mostrarPuntos(Jugador[] jugadores) {
         System.out.println("");
-        System.out.printf("%-20s\t%7s\t%7s\t%7s\t%5s\n", 
+        System.out.printf("%-20s\t%7s\t%7s\t%7s\t%5s\n",
                 "Jugadores", "Ronda 1", "Ronda 2", "Ronda 3", "Total");
         for (Jugador j : jugadores) {
             System.out.printf("%-20s\t%7d\t%7d\t%7d\t%5d\n",
