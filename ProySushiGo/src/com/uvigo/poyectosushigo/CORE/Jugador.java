@@ -16,6 +16,7 @@ public class Jugador {
     private Mano mano;
     private int puntosAcumulados;
     private int puntosRondaActual;
+    private Pila<Carta> cartasMesaJugador;
 
     public Jugador(String nombre) {
         this.nombre = nombre;
@@ -51,6 +52,14 @@ public class Jugador {
 
     public void setPuntosRondaActual(int puntosRondaActual) {
         this.puntosRondaActual = puntosRondaActual;
+    }
+
+    public Pila<Carta> getCartasMesaJugador() {
+        return cartasMesaJugador;
+    }
+
+    public void setCartasMesaJugador(Pila<Carta> cartasMesaJugador) {
+        this.cartasMesaJugador = cartasMesaJugador;
     }
 
     public Carta elegirCarta(Carta c) {
