@@ -50,10 +50,9 @@ public class CartasMesa {
         
         pilaInsertar.push(c);
     }
-    
 
     public int calcularPuntuacion() {
-        
+ 
     }
 
     public void limpiarFinalRonda() {
