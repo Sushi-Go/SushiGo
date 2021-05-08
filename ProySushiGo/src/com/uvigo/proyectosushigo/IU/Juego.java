@@ -59,6 +59,7 @@ public class Juego {
             }
             //Calculamos y mostramos los resultados de la ronda
             calcularPuntos(jugadores, ronda);
+            limpiarMesa(jugadores);
             System.out.println("\nResultados de la ronda " + ronda + ":");
             mostrarPuntos(jugadores);
             pulsaEnter();
@@ -171,6 +172,12 @@ public class Juego {
             j.addPuntos(j.getCartasMesa().calcularPuntuacion(), ronda);
         }
     }
+    
+    private static void limpiarMesa(Jugador[] jugadores) {
+        for (Jugador j : jugadores) {
+            j.getCartasMesa().limpiarFinalRonda();
+        }
+    }
 
     /**
      * Muestra las puntuaciones de los jugadores
@@ -179,8 +186,12 @@ public class Juego {
      */
     private static void mostrarPuntos(Jugador[] jugadores) {
         System.out.println("");
+        System.out.printf("%-20s\t%7s\t%7s\t%7s\t%5s\n", 
+                "Jugadores", "Ronda 1", "Ronda 2", "Ronda 3", "Total");
         for (Jugador j : jugadores) {
-            System.out.println(j.getNombre() + ": " + j.getPuntosAcumulados());
+            System.out.printf("%-20s\t%7d\t%7d\t%7d\t%5d\n",
+                    j.getNombre(), j.getPuntos(1), j.getPuntos(2),
+                    j.getPuntos(3), j.getPuntos());
         }
         System.out.println("");
     }
@@ -202,7 +213,7 @@ public class Juego {
     private static Jugador ganador(Jugador[] jugadores) {
         Jugador toret = jugadores[0];
         for (int i = 1; i < jugadores.length; i++) {
-            if (jugadores[i].getPuntosAcumulados() > toret.getPuntosAcumulados()) {
+            if (jugadores[i].getPuntos() > toret.getPuntos()) {
                 toret = jugadores[i];
             }
         }
