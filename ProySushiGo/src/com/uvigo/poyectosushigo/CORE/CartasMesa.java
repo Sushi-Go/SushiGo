@@ -66,6 +66,7 @@ public class CartasMesa {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         Lista<Pila<Carta>> copia = new ListaEnlazada<>();
+        final int maxLongitud = 20; //Mayor longitud posible de Carta.toString()
         int altura = 1;
 
         for (Pila<Carta> p : cartasMesa) {
@@ -74,24 +75,24 @@ public class CartasMesa {
                 altura = p.tamaño();
             }
         }
-
+        //Cada iteración añade las cartas de una altura, de arriba a abajo
         while (altura > 0) {
             for (Pila<Carta> p : copia) {
                 if (p.tamaño() == altura) {
-                    sb.append(cadenaCentrada(p.pop().toString(), 18));
+                    sb.append(cadenaCentrada(p.pop().toString(), maxLongitud));
                 } else {
-                    sb.append(cadenaCentrada("", 18));
+                    sb.append(cadenaCentrada("", maxLongitud));
                 }
+                sb.append("\t");
             }
             altura--;
             sb.append("\n");
         }
-
         return sb.toString();
     }
 
     /**
-     * Devuuelve una cadena alineada al centro
+     * Devuelve una cadena alineada al centro
      *
      * @param cadena String que se pondrá en el medio
      * @param lon longitud total de la cadena a devolver
