@@ -24,8 +24,12 @@ public class CartasMesa {
         numCartasMesa = cartasMesa.tamaño();
     }
 
-    public void ponerSobreMesa(Carta c) {
-
+    public void ponerSobreMesa(Pila<Carta> cartasMesaJugador,Carta c) {
+        Pila<Carta> temp=cartasMesaJugador;
+        
+        cartasMesa.suprimir(cartasMesaJugador);
+        temp.push(c);
+        cartasMesa.insertarPrincipio(temp);
     }
 
     public void retirarCartaMesa(Carta c) {
