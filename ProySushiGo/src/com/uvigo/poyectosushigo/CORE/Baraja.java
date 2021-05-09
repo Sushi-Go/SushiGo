@@ -49,11 +49,11 @@ public class Baraja {
         int numCartas = numCartas();
         Carta[] aux = new Carta[numCartas];
         int random;
-
+        //Mueve todas las cartas a un array
         for (int i = 0; !baraja.esVacio(); i++) {
             aux[i] = cogerCarta();
         }
-
+        //En cada iteración mueve una carta aleatoria del array a la baraja
         for (int i = numCartas - 1; i >= 0; i--) {
             random = (int) (Math.random() * i);
             baraja.push(aux[random]);
