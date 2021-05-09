@@ -60,8 +60,24 @@ public class CartasMesa {
         }
     }
 
-    public int calcularNumRollitos() {
+    public int calcularNumRollitos(Carta c) {
+        int toRet=0;
         
+        switch(c.getNombre()){
+            case "Maki de 1 rollo":
+                toRet=1;
+                break;
+            case "Maki de 2 rollos":
+                toRet=2;
+                break;
+            case "Maki de 3 rollos":
+                toRet=3;
+                break;
+            default:
+                System.err.println("La carta no es un maki");
+        }
+        
+        return toRet;
     }
 
     public Lista<Pila<Carta>> getCartasMesa() {
