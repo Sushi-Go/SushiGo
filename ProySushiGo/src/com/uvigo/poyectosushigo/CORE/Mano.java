@@ -5,78 +5,67 @@
  */
 package com.uvigo.poyectosushigo.CORE;
 
-import java.util.List;
-import lista.*;
+import java.util.Iterator;
+import lista.Lista;
+import lista.ListaEnlazada;
 
 public class Mano {
-
-    private int numCartasMano;
-    private Lista<Carta> cartasMano;
-
-    public Mano(Lista<Carta> cartasMano) {
-        numCartasMano = cartasMano.tamaño();
-        this.cartasMano = cartasMano;
-    }
-
+    
+    private final Lista<Carta> cartasMano;
+    
+    /**
+     * Crea una mano de cartas
+     */
     public Mano() {
-        numCartasMano = 0;
         cartasMano = new ListaEnlazada<>();
     }
-
-    public void añadirCartaMano(Carta c) {
-        cartasMano.insertarPrincipio(c);
+    
+    /**
+     * Devuelve el número de cartas de la mano
+     * 
+     * @return el número de cartas, como int
+     */
+    public int getNumCartas() {
+        return cartasMano.tamaño();
     }
 
-    public void quitarCartaMano(Carta c) {
-        cartasMano.suprimir(c);
+    /**
+     * Añade una carta a la mano
+     * 
+     * @param carta Carta a añadir
+     */
+    public void addCarta(Carta carta) {
+        cartasMano.insertarFinal(carta);
     }
-
-    public void quitarCartaMano(int pos) {
-        Carta c;
-        List l = (List) getCartasMano();
-        c = (Carta) l.get(pos);
-        quitarCartaMano(c);
-
-    }
-
-    public Carta getCartaMano(int pos) {
-        Carta c;
-        List l = (List) getCartasMano();
-        c = (Carta) l.get(pos);
-        return c;
-
-    }
-
-    public Carta getCartaMano(Carta c) {
-        Carta car;
-
-        List l = (List) getCartasMano();
-        car = (Carta) l.get(l.indexOf(c));
-
-        return car;
-    }
-
-    public int getNumCartasMano() {
-        return numCartasMano;
-    }
-
-    public Lista<Carta> getCartasMano() {
-        return cartasMano;
-    }
-
-    public void setCartasMano(Lista<Carta> cartasMano) {
-        this.cartasMano = cartasMano;
+    
+    /**
+     * Elimina y devuelve una carta de la mano, o null si pos no es válido
+     * 
+     * @param pos posición de la carta, empezando en 1
+     * @return la Carta de esa posición
+     */
+    public Carta cogerCarta(int pos) {
+        Iterator it = cartasMano.iterator();
+        int i = 1;
+        
+        while (it.hasNext() && pos != i) {
+            it.next();
+        }
+        if (it.hasNext()) {
+            return (Carta) it.next();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public String toString() {
-        StringBuilder toRet = new StringBuilder();
-
-        toRet.append("Lista de cartas de la mano:");
-        for (Carta i : cartasMano) {
-            toRet.append("\n\t").append(i.toString());
+        StringBuilder sb = new StringBuilder();
+        int i = 1;
+        
+        for (Carta c : cartasMano) {
+            sb.append(i++).append(") ").append(c.toString()).append("\n");
         }
-
-        return toRet.toString();
+        return sb.toString();
     }
 }
