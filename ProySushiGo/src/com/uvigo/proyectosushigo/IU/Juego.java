@@ -37,16 +37,13 @@ public class Juego {
 
                 //Cada iteración es un turno
                 for (int i = 0; i < jugadores.length; i++) {
-                    //Mostramos el estado de la mesa
                     mostrarMesa(jugadores);
-                    //Pedimos una carta
                     int jugada = pideCarta(jugadores[i].getMano());
-                    //La movemos a las pendientes
-                    pendientes[i] = jugadores[i].getMano().getCartaMano(jugada);
+                    pendientes[i] = jugadores[i].getMano().quitarCarta(jugada);
                 }
                 //Ponemos las cartas pendientes de cada jugador en la mesa
                 for (int i = 0; i < jugadores.length; i++) {
-                    jugadores[i].getCartasMesa().ponerSobreMesa(pendientes[i]);
+                    jugadores[i].getCartasMesa().addCarta(pendientes[i]);
                 }
                 //Movemos la cartas de las manos a otros jugadores
                 rotarManos(jugadores);
@@ -103,7 +100,7 @@ public class Juego {
 
         for (Jugador j : jugadores) {
             for (int i = 0; i < cartasPorJugador; i++) {
-                j.getMano().añadirCartaMano(baraja.darCarta());
+                j.getMano().addCarta(baraja.darCarta());
             }
         }
     }
@@ -117,7 +114,7 @@ public class Juego {
      */
     private static boolean manosVacias(Jugador[] jugadores) {
         for (Jugador j : jugadores) {
-            if (j.getMano().getCartasMano().esVacio()) {
+            if (j.getMano().getNumCartas() > 0) {
                 return false;
             }
         }
@@ -162,12 +159,12 @@ public class Juego {
      * @param jugadores array de jugadores
      */
     private static void rotarManos(Jugador[] jugadores) {
-        Mano mano1 = jugadores[0].getMano();
+        Mano manoJ1 = jugadores[0].getMano();
 
         for (int i = 0; i < (jugadores.length - 1); i++) {
             jugadores[i].setMano(jugadores[i + 1].getMano());
         }
-        jugadores[jugadores.length - 1].setMano(mano1);
+        jugadores[jugadores.length - 1].setMano(manoJ1);
     }
 
     /**
@@ -182,14 +179,19 @@ public class Juego {
         }
     }
 
+    /**
+     * Quita todas las cartas de la mesa
+     *
+     * @param jugadores array de jugadores
+     */
     private static void limpiarMesa(Jugador[] jugadores) {
         for (Jugador j : jugadores) {
-            j.getCartasMesa().limpiarFinalRonda();
+            j.limpiarMesa();
         }
     }
 
     /**
-     * Muestra las puntuaciones de los jugadores
+     * Muestra las puntuaciones de los jugadores (en cada ronda y el total)
      *
      * @param jugadores array de jugadores
      */
