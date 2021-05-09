@@ -2,7 +2,7 @@ package com.uvigo.poyectosushigo.CORE;
 
 import pila.*;
 import lista.*;
-import com.uvigo.poyectosushigo.CORE.carta.*;
+import com.uvigo.poyectosushigo.CORE.*;
 
 public class Baraja {
 
@@ -14,52 +14,52 @@ public class Baraja {
         baraja = new EnlazadaPila<>();
         //Creamos las 5 cartas de nigiri de calamar
         for (int i = 1; i <= 5; i++) {
-            baraja.push(new NigiriCalamar());
+            baraja.push(new Carta("Nigiri de calamar"));
             numCartas++;
         }
         //Creamos las 10 cartas de nigiri de salmon
         for (int i = 1; i <= 10; i++) {
-            baraja.push(new NigiriSalmon());
+            baraja.push(new Carta("Nigiri de salmon"));
             numCartas++;
         }
         //Creamos las 5 cartas de nigiri de tortilla
         for (int i = 1; i <= 5; i++) {
-            baraja.push(new NigiriTortilla());
+            baraja.push(new Carta("Nigiri de tortilla"));
             numCartas++;
         }
         //Creamos las 6 cartas de wasabi
         for (int i = 1; i <= 6; i++) {
-            baraja.push(new Wasabi());
+            baraja.push(new Carta("Wasabi"));
             numCartas++;
         }
         //Creamos las 6 cartas de maki de 1 rollo
         for (int i = 1; i <= 6; i++) {
-            baraja.push(new Maki(1));
+            baraja.push(new Carta("Maki de 1 rollo"));
             numCartas++;
         }
         //Creamos las 12 cartas de maki de 2 rollos
         for (int i = 1; i <= 12; i++) {
-            baraja.push(new Maki(2));
+            baraja.push(new Carta("Maki de 2 rollos"));
             numCartas++;
         }
         //Creamos las 8 cartas de maki de 3 rollos
         for (int i = 1; i <= 8; i++) {
-            baraja.push(new Maki(3));
+            baraja.push(new Carta("Maki de 3 rollos"));
             numCartas++;
         }
         //Creamos las 14 cartas de tempura
         for (int i = 1; i <= 14; i++) {
-            baraja.push(new Tempura());
+            baraja.push(new Carta("Tempura"));
             numCartas++;
         }
         //Creamos las 14 cartas de sashimi
         for (int i = 1; i <= 14; i++) {
-            baraja.push(new Sashimi());
+            baraja.push(new Carta("Sashimi"));
             numCartas++;
         }
         //Creamos las 14 cartas de gyoza
         for (int i = 1; i <= 14; i++) {
-            baraja.push(new Gyoza());
+            baraja.push(new Carta("Gyoza"));
             numCartas++;
         }
     }
