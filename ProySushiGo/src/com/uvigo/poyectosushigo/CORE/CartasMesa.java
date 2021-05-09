@@ -60,7 +60,6 @@ public class CartasMesa {
         }
     }
 
-<<<<<<< HEAD
     public int calcularNumRollitos(Carta c) {
         int toRet=0;
         
@@ -79,10 +78,6 @@ public class CartasMesa {
         }
         
         return toRet;
-=======
-    public int calcularNumRollitos() {
-
->>>>>>> 1ca242bedea12ad6e1704d7cfc2044cd0830ba82
     }
 
     public Lista<Pila<Carta>> getCartasMesa() {
