@@ -11,35 +11,74 @@ import pila.*;
 
 public class CartasMesa {
 
-    private final Lista<Pila<Carta>> cartasMesa;
-    private int puntosBase;
-    private int numRollos;
+    private Lista<Pila<Carta>> cartasMesa;
+    private int numCartasMesa;
 
-    /**
-     * Crea un nuevo cartasMesa
-     */
     public CartasMesa() {
-        this.cartasMesa = new ListaEnlazada<>();
-        puntosBase = 0;
-        numRollos = 0;
+        numCartasMesa = 0;
+        cartasMesa = new ListaEnlazada<>();
     }
 
-    /**
-     * Devuelve los puntos base de la mesa
-     * 
-     * @return la suma de todos los puntos, excepto los makis
-     */
-    public int getPuntosBase() {
-        return puntosBase;
+    public CartasMesa(Lista<Pila<Carta>> cartasMesa) {
+        this.cartasMesa = cartasMesa;
+        numCartasMesa = cartasMesa.tamaño();
+    }
+
+    //Le añade la carta c a la pila seleccionada en pilaCartas
+    public void ponerSobreMesa(Pila<Carta> pilaCartas,Carta c) {
+        Pila<Carta> temp=pilaCartas;
+        
+        cartasMesa.suprimir(pilaCartas);
+        temp.push(c);
+        cartasMesa.insertarPrincipio(temp);
+        numCartasMesa++;
+    }
+
+    //retira la ultima carta de la pila seleccionada en pilaCartas
+    public void retirarCartaMesa(Pila<Carta> pilaCartas) {
+        Pila<Carta> temp=pilaCartas;
+        
+        cartasMesa.suprimir(pilaCartas);
+        temp.pop();
+        cartasMesa.insertarPrincipio(temp);
+        numCartasMesa--;
     }
     
-    /**
-     * Devuelve el total de rollos
-     *
-     * @return la suma de los rollos de todas las cartas de la mesa
-     */
-    public int getNumRollos() {
-        return numRollos;
+    //retira la ultima carta de pilaRetirar y la inserta en pilaInsertar
+    public void retirarInsertarCarta(Pila<Carta> pilaRetirar,Pila<Carta> pilaInsertar){
+        Carta c=pilaRetirar.pop();
+        
+        pilaInsertar.push(c);
+    }
+
+    public int calcularPuntuacion() {
+ 
+    }
+
+    public void limpiarFinalRonda() {
+        for (Pila<Carta> i : cartasMesa) {
+            i.pop();
+        }
+    }
+
+    public int calcularNumRollitos() {
+
+    }
+
+    public Lista<Pila<Carta>> getCartasMesa() {
+        return cartasMesa;
+    }
+
+    public void setCartasMesa(Lista<Pila<Carta>> cartasMesa) {
+        this.cartasMesa = cartasMesa;
+    }
+
+    public int getNumCartasMesa() {
+        return numCartasMesa;
+    }
+
+    public void setNumCartasMesa(int numCartasMesa) {
+        this.numCartasMesa = numCartasMesa;
     }
 
     /**
@@ -48,34 +87,36 @@ public class CartasMesa {
      * @param carta Carta a añadir
      */
     public void addCarta(Carta carta) {
-        int nuevosPuntos = 0;
+        //Es un nigiri
+        if (carta.getNombre().substring(0, 5).equals("Nigiri")) {
+            boolean cartaInsertada = false;
+            Pila<Carta> pilaNigiri = null;
+            Iterator it = cartasMesa.iterator();
 
-        if (carta.getNombre().startsWith("Nigiri")) {
-
-            switch (carta.getNombre().substring(10)) {
-                case "calamar":
-                    nuevosPuntos = 3;
-                    break;
-                case "salmón":
-                    nuevosPuntos = 2;
-                    break;
-                case "tortilla":
-                    nuevosPuntos = 1;
+            //Buscamos una pila con wasabi o con nigiri
+            while (!cartaInsertada && it.hasNext()) {
+                Pila<Carta> actual = (Pila<Carta>) it.next();
+                
+                if (actual.top().getNombre().equals("Wasabi")) {
+                    actual.push(carta);
+                    cartaInsertada = true;
+                }
+                if (actual.top().getNombre().substring(0, 5).equals("Nigiri")) {
+                    pilaNigiri = actual;
+                }
             }
-            if (apilar(carta, "Wasabi") != null) {
-                nuevosPuntos *= 3;
-            } else {
-                if (apilar(carta, carta.getNombre()) == null) {
-                    if (apilar(carta, "Nigiri") == null) {
-                        Pila<Carta> nueva = new EnlazadaPila<>();
-                        nueva.push(carta);
-                        cartasMesa.insertarFinal(nueva);
-                    }
+            if (!cartaInsertada) {
+                //Si no encontramos wasabi, la ponemos sobre nigiri
+                if (pilaNigiri != null) {
+                    pilaNigiri.push(carta);
+                } // Si tampoco encontramos nigiri, creamos una pila nueva
+                else {
+                    Pila<Carta> nueva = new EnlazadaPila<>();
+                    nueva.push(carta);
+                    cartasMesa.insertarFinal(nueva);
                 }
             }
         }
-
-        puntosBase += nuevosPuntos;
     }
 
     @Override
@@ -105,24 +146,6 @@ public class CartasMesa {
             sb.append("\n");
         }
         return sb.toString();
-    }
-
-    /**
-     * Devuelve una pila cuya primera carta empiece por 'buscar', añadiendo una
-     * carta encima de esa misma pila
-     *
-     * @param nueva carta a añadir
-     * @param buscar comienzo del nombre de carta que buscamos en las pilas
-     * @return la Pila de cartasMesa correspondiente, o null en su defecto
-     */
-    private Pila<Carta> apilar(Carta nueva, String buscar) {
-        for (Pila<Carta> actual : cartasMesa) {
-            if (actual.top().getNombre().startsWith(buscar)) {
-                actual.push(nueva);
-                return actual;
-            }
-        }
-        return null;
     }
 
     /**
