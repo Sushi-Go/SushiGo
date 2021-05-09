@@ -51,7 +51,53 @@ public class CartasMesa {
     }
 
     public int calcularPuntuacion() {
+        int puntos=0,contadorTempura=0,contadorSashimi=0;
+        Carta c;
+        Pila<Carta> temp=new EnlazadaPila<>();
         
+        for(Pila<Carta> i: cartasMesa){
+            c=i.pop();
+            switch(c.getNombre()){
+                case "Tempura":
+                    contadorTempura++;
+                    if(contadorTempura!=0 && contadorTempura%2==0){
+                        puntos+=5;
+                    }
+                    break;
+                case "Sashimi":
+                    contadorSashimi++;
+                    if(contadorSashimi!=1 && contadorSashimi%3==0){
+                        puntos+=10;
+                    }
+                    break;
+                case "Gyoza":
+                    
+                    break;
+                case "Maki de 1 rollo":
+                    
+                    break;
+                case "Maki de 2 rollos":
+                    
+                    break;
+                case "Maki de 3 rollos":
+                    
+                    break;
+                case "Wasabi":
+                    
+                    break;
+                case "Nigiri de calamar":
+                    
+                    break;
+                case "Nigiri de salmon":
+                    
+                    break;
+                case "Nigiri de tortilla":
+                    
+                    break;
+            }
+            temp.push(c);
+        }
+        return puntos;
     }
 
     public void limpiarFinalRonda() {
