@@ -5,7 +5,6 @@
 package com.uvigo.proyectosushigo.IU;
 
 import com.uvigo.poyectosushigo.CORE.*;
-import com.uvigo.poyectosushigo.CORE.carta.*;
 import static com.uvigo.proyectosushigo.IU.ES.*;
 import static com.uvigo.proyectosushigo.IU.Main.RONDAS;
 
