@@ -38,7 +38,7 @@ public class Juego {
                 for (int i = 0; i < jugadores.length; i++) {
                     mostrarMesa(jugadores);
                     int jugada = pideCarta(jugadores[i].getMano());
-                    pendientes[i] = jugadores[i].getMano().quitarCarta(jugada);
+                    pendientes[i] = jugadores[i].getMano().cogerCarta(jugada);
                 }
                 //Ponemos las cartas pendientes de cada jugador en la mesa
                 for (int i = 0; i < jugadores.length; i++) {
@@ -99,7 +99,7 @@ public class Juego {
 
         for (Jugador j : jugadores) {
             for (int i = 0; i < cartasPorJugador; i++) {
-                j.getMano().addCarta(baraja.darCarta());
+                j.getMano().addCarta(baraja.cogerCarta());
             }
         }
     }
@@ -147,7 +147,7 @@ public class Juego {
 
         do {
             toret = pideEntero("Selecciona una carta: ");
-        } while (toret < 0 || toret > mano.getNumCartasMano());
+        } while (toret < 1 || toret > mano.getNumCartas());
 
         return toret;
     }
