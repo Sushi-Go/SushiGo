@@ -5,6 +5,7 @@
  */
 package com.uvigo.poyectosushigo.CORE;
 
+import java.util.Iterator;
 import lista.*;
 import pila.*;
 
@@ -78,6 +79,44 @@ public class CartasMesa {
 
     public void setNumCartasMesa(int numCartasMesa) {
         this.numCartasMesa = numCartasMesa;
+    }
+
+    /**
+     * Añade una carta a la mesa en la posición adecuada
+     *
+     * @param carta Carta a añadir
+     */
+    public void addCarta(Carta carta) {
+        //Es un nigiri
+        if (carta.getNombre().substring(0, 5).equals("Nigiri")) {
+            boolean cartaInsertada = false;
+            Pila<Carta> pilaNigiri = null;
+            Iterator it = cartasMesa.iterator();
+
+            //Buscamos una pila con wasabi o con nigiri
+            while (!cartaInsertada && it.hasNext()) {
+                Pila<Carta> actual = (Pila<Carta>) it.next();
+                
+                if (actual.top().getNombre().equals("Wasabi")) {
+                    actual.push(carta);
+                    cartaInsertada = true;
+                }
+                if (actual.top().getNombre().substring(0, 5).equals("Nigiri")) {
+                    pilaNigiri = actual;
+                }
+            }
+            if (!cartaInsertada) {
+                //Si no encontramos wasabi, la ponemos sobre nigiri
+                if (pilaNigiri != null) {
+                    pilaNigiri.push(carta);
+                } // Si tampoco encontramos nigiri, creamos una pila nueva
+                else {
+                    Pila<Carta> nueva = new EnlazadaPila<>();
+                    nueva.push(carta);
+                    cartasMesa.insertarFinal(nueva);
+                }
+            }
+        }
     }
 
     @Override
