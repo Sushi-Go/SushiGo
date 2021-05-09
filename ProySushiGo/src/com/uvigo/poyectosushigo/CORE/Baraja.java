@@ -2,7 +2,6 @@ package com.uvigo.poyectosushigo.CORE;
 
 import pila.*;
 import lista.*;
-import com.uvigo.poyectosushigo.CORE.*;
 
 public class Baraja {
 
