@@ -5,7 +5,6 @@
  */
 package com.uvigo.poyectosushigo.CORE;
 
-import com.uvigo.poyectosushigo.CORE.carta.*;
 import java.util.List;
 import lista.*;
 
