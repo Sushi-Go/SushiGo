@@ -51,7 +51,7 @@ public class CartasMesa {
     }
 
     public int calcularPuntuacion() {
- 
+        
     }
 
     public void limpiarFinalRonda() {
