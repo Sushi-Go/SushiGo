@@ -6,75 +6,101 @@
  */
 package com.uvigo.poyectosushigo.CORE;
 
-import lista.Lista;
-import pila.Pila;
+import static com.uvigo.proyectosushigo.IU.Main.RONDAS;
 
 public class Jugador {
 
-    private String nombre;
+    private final String nombre;
     private Mano mano;
-    private int puntosAcumulados;
-    private int puntosRondaActual;
-    private CartasMesa cartasMesaJugador;
+    private CartasMesa cartasMesa;
+    private final int puntos[];
 
+    /**
+     * Crea un jugador
+     *
+     * @param nombre nombre del jugador
+     */
     public Jugador(String nombre) {
         this.nombre = nombre;
+        this.mano = new Mano();
+        this.cartasMesa = new CartasMesa();
+        this.puntos = new int[RONDAS];
     }
 
+    /**
+     * Devuelve el nombre del jugador
+     *
+     * @return el nombre del jugador, como String
+     */
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
+    /**
+     * Devuelve la mano del jugador
+     *
+     * @return la Mano del jugador
+     */
     public Mano getMano() {
         return mano;
     }
 
+    /**
+     * Cambia la mano del jugador
+     *
+     * @param mano nueva Mano del jugador
+     */
     public void setMano(Mano mano) {
         this.mano = mano;
     }
 
-    public int getPuntosAcumulados() {
-        return puntosAcumulados;
+    /**
+     * Devuelve las cartas de la mesa del jugador
+     *
+     * @return CartasMesa del jugador
+     */
+    public CartasMesa getCartasMesa() {
+        return cartasMesa;
     }
 
-    public void setPuntosAcumulados(int puntosAcumulados) {
-        this.puntosAcumulados = puntosAcumulados;
+    /**
+     * Quita todas las cartas del jugador de la mesa
+     */
+    public void limpiarMesa() {
+        this.cartasMesa = new CartasMesa();
     }
 
-    public int getPuntosRondaActual() {
-        return puntosRondaActual;
+    /**
+     * Devuelve los puntos asignados al jugador en una ronda
+     *
+     * @param ronda la ronda de la que queremos obtener los puntos
+     * @return los puntos de esa ronda, como int
+     */
+    public int getPuntos(int ronda) {
+        return puntos[ronda - 1];
     }
 
-    public void setPuntosRondaActual(int puntosRondaActual) {
-        this.puntosRondaActual = puntosRondaActual;
+    /**
+     * Devuelve el total de puntos del jugador
+     *
+     * @return la suma de los puntos de todas las rondas, como int
+     */
+    public int getPuntos() {
+        int toret = 0;
+        for (int i = 0; i < puntos.length; i++) {
+            toret += puntos[i];
+        }
+        return toret;
     }
 
-    public CartasMesa getCartasMesaJugador() {
-        return cartasMesaJugador;
+    /**
+     * Añade puntos al jugador en una ronda
+     *
+     * @param puntos cantidad de puntos a añadir
+     * @param ronda ronda en la que se añaden
+     */
+    public void addPuntos(int puntos, int ronda) {
+        this.puntos[ronda - 1] += puntos;
     }
-
-    public void setCartasMesaJugador(CartasMesa cartasMesaJugador) {
-        this.cartasMesaJugador = cartasMesaJugador;
-    }
-
-    public Carta elegirCarta(Carta c) {
-        return mano.getCartaMano(c);
-    }
-    
-    
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Jugador: ").append(nombre);
-        sb.append("\nmano: ").append(mano);
-        sb.append("\npuntosAcumulados: ").append(puntosAcumulados);
-        sb.append("\npuntosRondaActual: ").append(puntosRondaActual);
-        return sb.toString();
-    }
-    
 
 }
