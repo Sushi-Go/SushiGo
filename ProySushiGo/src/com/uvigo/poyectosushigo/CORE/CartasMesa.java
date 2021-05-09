@@ -120,7 +120,6 @@ public class CartasMesa {
         int nuevosPuntos = 0;
 
         if (carta.getNombre().startsWith("Nigiri")) {
-
             switch (carta.getNombre().substring(10)) {
                 case "calamar":
                     nuevosPuntos = 3;
@@ -140,8 +139,19 @@ public class CartasMesa {
                     }
                 }
             }
+        } else if (carta.getNombre().equals("Wasabi")) {
+            apilar(carta, "");
+            
+        } else if (carta.getNombre().equals("Gyoza")) {
+            Pila<Carta> p = apilar(carta, "Gyoza");
+            
+            if (p == null) {
+                p = apilar(carta, "");
+            } 
+            if (p.tamaño() <= 5){
+                nuevosPuntos = p.tamaño();
+            }
         }
-
         puntosBase += nuevosPuntos;
     }
 
