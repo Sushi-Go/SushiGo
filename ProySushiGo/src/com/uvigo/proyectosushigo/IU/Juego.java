@@ -36,40 +36,29 @@ public class Juego {
 
                 //Cada iteración es un turno
                 for (int i = 0; i < jugadores.length; i++) {
-
-                    //Mostramos información 
                     mostrarMesa(jugadores);
-                    System.out.println("Tu mano:");
-                    System.out.println(jugadores[i].getMano().toString());
-
-                    //Movemos la carta jugada de la mano a las pendientes
-                    //(Para que todos jueguen la carta "a la vez")
-                    int jugada = pideEntero("Selecciona una carta: ");
-                    pendientes[i] = jugadores[i].getMano().getCartaMano(jugada);
+                    int jugada = pideCarta(jugadores[i].getMano());
+                    pendientes[i] = jugadores[i].getMano().quitarCarta(jugada);
                 }
-
                 //Ponemos las cartas pendientes de cada jugador en la mesa
                 for (int i = 0; i < jugadores.length; i++) {
-                    jugadores[i].getCartasMesa().ponerSobreMesa(pendientes[i]);
+                    jugadores[i].getCartasMesa().addCarta(pendientes[i]);
                 }
                 //Movemos la cartas de las manos a otros jugadores
                 rotarManos(jugadores);
-
             }
             //Calculamos y mostramos los resultados de la ronda
             calcularPuntos(jugadores, ronda);
+            limpiarMesa(jugadores);
             System.out.println("\nResultados de la ronda " + ronda + ":");
             mostrarPuntos(jugadores);
             pulsaEnter();
-
         }
-
         //Al acabar todas las rondas mostramos los resultados y el ganador
         System.out.println("\nResultados finales:");
         mostrarPuntos(jugadores);
         System.out.println("\nEl ganador es..."
                 + ganador(jugadores).getNombre() + "! Enhorabuena!");
-
     }
 
     /**
@@ -100,20 +89,6 @@ public class Juego {
     }
 
     /**
-     * Muestra por pantalla el estado actual de la mesa
-     *
-     * @param jugadores array de jugadores
-     */
-    private static void mostrarMesa(Jugador[] jugadores) {
-        System.out.println("\nEstado actual de la mesa\n");
-
-        for (Jugador j : jugadores) {
-            System.out.println(j.getNombre());
-            System.out.println("\n" + j.getCartasMesa().toString() + "\n");
-        }
-    }
-
-    /**
      * Reparte el número correspondiente de cartas a la mano de cada jugador
      *
      * @param jugadores array de jugadores
@@ -124,7 +99,7 @@ public class Juego {
 
         for (Jugador j : jugadores) {
             for (int i = 0; i < cartasPorJugador; i++) {
-                j.getMano().añadirCartaMano(baraja.darCarta());
+                j.getMano().addCarta(baraja.darCarta());
             }
         }
     }
@@ -138,11 +113,43 @@ public class Juego {
      */
     private static boolean manosVacias(Jugador[] jugadores) {
         for (Jugador j : jugadores) {
-            if (j.getMano().getCartasMano().esVacio()) {
+            if (j.getMano().getNumCartas() > 0) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Muestra por pantalla el estado actual de la mesa
+     *
+     * @param jugadores array de jugadores
+     */
+    private static void mostrarMesa(Jugador[] jugadores) {
+        System.out.println("\nEstado actual de la mesa\n");
+
+        for (Jugador j : jugadores) {
+            System.out.println(j.getNombre());
+            System.out.println(j.getCartasMesa().toString() + "\n");
+        }
+    }
+
+    /**
+     * Devuelve el índice de la carta que quieres jugar el usuario
+     *
+     * @param mano mano del jugador que elige la carta
+     * @return el índice de la carta que elige el usuario, como int
+     */
+    private static int pideCarta(Mano mano) {
+        System.out.println("Tu mano: ");
+        System.out.println(mano.toString());
+        int toret;
+
+        do {
+            toret = pideEntero("Selecciona una carta: ");
+        } while (toret < 0 || toret > mano.getNumCartasMano());
+
+        return toret;
     }
 
     /**
@@ -151,12 +158,12 @@ public class Juego {
      * @param jugadores array de jugadores
      */
     private static void rotarManos(Jugador[] jugadores) {
-        Mano mano1 = jugadores[0].getMano();
+        Mano manoJ1 = jugadores[0].getMano();
 
         for (int i = 0; i < (jugadores.length - 1); i++) {
             jugadores[i].setMano(jugadores[i + 1].getMano());
         }
-        jugadores[jugadores.length - 1].setMano(mano1);
+        jugadores[jugadores.length - 1].setMano(manoJ1);
     }
 
     /**
@@ -172,14 +179,29 @@ public class Juego {
     }
 
     /**
-     * Muestra las puntuaciones de los jugadores
+     * Quita todas las cartas de la mesa
+     *
+     * @param jugadores array de jugadores
+     */
+    private static void limpiarMesa(Jugador[] jugadores) {
+        for (Jugador j : jugadores) {
+            j.limpiarMesa();
+        }
+    }
+
+    /**
+     * Muestra las puntuaciones de los jugadores (en cada ronda y el total)
      *
      * @param jugadores array de jugadores
      */
     private static void mostrarPuntos(Jugador[] jugadores) {
         System.out.println("");
+        System.out.printf("%-20s\t%7s\t%7s\t%7s\t%5s\n",
+                "Jugadores", "Ronda 1", "Ronda 2", "Ronda 3", "Total");
         for (Jugador j : jugadores) {
-            System.out.println(j.getNombre() + ": " + j.getPuntosAcumulados());
+            System.out.printf("%-20s\t%7d\t%7d\t%7d\t%5d\n",
+                    j.getNombre(), j.getPuntos(1), j.getPuntos(2),
+                    j.getPuntos(3), j.getPuntos());
         }
         System.out.println("");
     }
@@ -201,7 +223,7 @@ public class Juego {
     private static Jugador ganador(Jugador[] jugadores) {
         Jugador toret = jugadores[0];
         for (int i = 1; i < jugadores.length; i++) {
-            if (jugadores[i].getPuntosAcumulados() > toret.getPuntosAcumulados()) {
+            if (jugadores[i].getPuntos() > toret.getPuntos()) {
                 toret = jugadores[i];
             }
         }
