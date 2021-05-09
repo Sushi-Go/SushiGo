@@ -5,50 +5,22 @@
  */
 package com.uvigo.poyectosushigo.CORE;
 
-import java.util.Iterator;
 import lista.*;
 import pila.*;
 
 public class CartasMesa {
 
-    private Lista<Pila<Carta>> cartasMesa;
-    private int numCartasMesa;
+    private final Lista<Pila<Carta>> cartasMesa;
+    private int puntosBase;
+    private int numRollos;
 
+    /**
+     * Crea un nuevo cartasMesa
+     */
     public CartasMesa() {
-        numCartasMesa = 0;
-        cartasMesa = new ListaEnlazada<>();
-    }
-
-    public CartasMesa(Lista<Pila<Carta>> cartasMesa) {
-        this.cartasMesa = cartasMesa;
-        numCartasMesa = cartasMesa.tamaño();
-    }
-
-    //Le añade la carta c a la pila seleccionada en pilaCartas
-    public void ponerSobreMesa(Pila<Carta> pilaCartas,Carta c) {
-        Pila<Carta> temp=pilaCartas;
-        
-        cartasMesa.suprimir(pilaCartas);
-        temp.push(c);
-        cartasMesa.insertarPrincipio(temp);
-        numCartasMesa++;
-    }
-
-    //retira la ultima carta de la pila seleccionada en pilaCartas
-    public void retirarCartaMesa(Pila<Carta> pilaCartas) {
-        Pila<Carta> temp=pilaCartas;
-        
-        cartasMesa.suprimir(pilaCartas);
-        temp.pop();
-        cartasMesa.insertarPrincipio(temp);
-        numCartasMesa--;
-    }
-    
-    //retira la ultima carta de pilaRetirar y la inserta en pilaInsertar
-    public void retirarInsertarCarta(Pila<Carta> pilaRetirar,Pila<Carta> pilaInsertar){
-        Carta c=pilaRetirar.pop();
-        
-        pilaInsertar.push(c);
+        this.cartasMesa = new ListaEnlazada<>();
+        puntosBase = 0;
+        numRollos = 0;
     }
 
     public int calcularPuntuacion() {
@@ -100,13 +72,25 @@ public class CartasMesa {
         }
         return puntos;
     }
-
-    public void limpiarFinalRonda() {
-        for (Pila<Carta> i : cartasMesa) {
-            i.pop();
-        }
+    
+    /**
+     * Devuelve los puntos base de la mesa
+     * 
+     * @return la suma de todos los puntos, excepto los makis
+     */
+    public int getPuntosBase() {
+        return puntosBase;
     }
-
+    
+    /**
+     * Devuelve el total de rollos
+     *
+     * @return la suma de los rollos de todas las cartas de la mesa
+     */
+    public int getNumRollos() {
+        return numRollos;
+    }
+    
     public int calcularNumRollitos(Carta c) {
         int toRet=0;
         
@@ -127,58 +111,38 @@ public class CartasMesa {
         return toRet;
     }
 
-    public Lista<Pila<Carta>> getCartasMesa() {
-        return cartasMesa;
-    }
-
-    public void setCartasMesa(Lista<Pila<Carta>> cartasMesa) {
-        this.cartasMesa = cartasMesa;
-    }
-
-    public int getNumCartasMesa() {
-        return numCartasMesa;
-    }
-
-    public void setNumCartasMesa(int numCartasMesa) {
-        this.numCartasMesa = numCartasMesa;
-    }
-
     /**
      * Añade una carta a la mesa en la posición adecuada
      *
      * @param carta Carta a añadir
      */
     public void addCarta(Carta carta) {
-        //Es un nigiri
-        if (carta.getNombre().substring(0, 5).equals("Nigiri")) {
-            boolean cartaInsertada = false;
-            Pila<Carta> pilaNigiri = null;
-            Iterator it = cartasMesa.iterator();
+        int nuevosPuntos = 0;
 
-            //Buscamos una pila con wasabi o con nigiri
-            while (!cartaInsertada && it.hasNext()) {
-                Pila<Carta> actual = (Pila<Carta>) it.next();
-                
-                if (actual.top().getNombre().equals("Wasabi")) {
-                    actual.push(carta);
-                    cartaInsertada = true;
-                }
-                if (actual.top().getNombre().substring(0, 5).equals("Nigiri")) {
-                    pilaNigiri = actual;
-                }
+        if (carta.getNombre().startsWith("Nigiri")) {
+
+            switch (carta.getNombre().substring(10)) {
+                case "calamar":
+                    nuevosPuntos = 3;
+                    break;
+                case "salmón":
+                    nuevosPuntos = 2;
+                    break;
+                case "tortilla":
+                    nuevosPuntos = 1;
             }
-            if (!cartaInsertada) {
-                //Si no encontramos wasabi, la ponemos sobre nigiri
-                if (pilaNigiri != null) {
-                    pilaNigiri.push(carta);
-                } // Si tampoco encontramos nigiri, creamos una pila nueva
-                else {
-                    Pila<Carta> nueva = new EnlazadaPila<>();
-                    nueva.push(carta);
-                    cartasMesa.insertarFinal(nueva);
+            if (apilar(carta, "Wasabi") != null) {
+                nuevosPuntos *= 3;
+            } else {
+                if (apilar(carta, carta.getNombre()) == null) {
+                    if (apilar(carta, "Nigiri") == null) {
+                        apilar(carta, "");
+                    }
                 }
             }
         }
+
+        puntosBase += nuevosPuntos;
     }
 
     @Override
@@ -208,6 +172,32 @@ public class CartasMesa {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    /**
+     * Devuelve la pila en la que se inserta 'carta'. Si 'buscar' es "", 'carta'
+     * se añade a una pila nueva (que se devuelve). Si no, busca la pila que
+     * empiece por 'buscar', y si la encuentra, añade 'carta' y devuelve la 
+     * pila. Si no encuentra la pila, 'carta' no se inserta y devuelve null.
+     *
+     * @param carta carta a añadir
+     * @param buscar comienzo del nombre de carta que buscamos en las pilas
+     * @return la pila en la que se añade la carta, o null si no se encuentra
+     */
+    private Pila<Carta> apilar(Carta carta, String buscar) {
+        if (buscar.equals("")) {
+            Pila<Carta> pila = new EnlazadaPila<>();
+            pila.push(carta);
+            cartasMesa.insertarFinal(pila);
+            return pila;
+        }
+        for (Pila<Carta> actual : cartasMesa) {
+            if (actual.top().getNombre().startsWith(buscar)) {
+                actual.push(carta);
+                return actual;
+            }
+        }
+        return null;
     }
 
     /**
