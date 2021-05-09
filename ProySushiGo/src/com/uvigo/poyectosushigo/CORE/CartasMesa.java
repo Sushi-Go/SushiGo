@@ -60,6 +60,7 @@ public class CartasMesa {
         }
     }
 
+<<<<<<< HEAD
     public int calcularNumRollitos(Carta c) {
         int toRet=0;
         
@@ -78,6 +79,10 @@ public class CartasMesa {
         }
         
         return toRet;
+=======
+    public int calcularNumRollitos() {
+
+>>>>>>> 1ca242bedea12ad6e1704d7cfc2044cd0830ba82
     }
 
     public Lista<Pila<Carta>> getCartasMesa() {
@@ -98,16 +103,54 @@ public class CartasMesa {
 
     @Override
     public String toString() {
-        StringBuilder toRet = new StringBuilder();
-        Pila<Carta> temp = new EnlazadaPila<>();
+        StringBuilder sb = new StringBuilder();
+        Lista<Pila<Carta>> copia = new ListaEnlazada<>();
+        final int maxLongitud = 20; //Mayor longitud posible de Carta.toString()
+        int altura = 1;
 
-        toRet.append("\nCartas: ");
-        for (Pila<Carta> i : cartasMesa) {
-            temp = i;
-            toRet.append("\n\t").append(i.pop().toString());
+        for (Pila<Carta> p : cartasMesa) {
+            copia.insertarFinal(p);
+            if (p.tamaño() > altura) {
+                altura = p.tamaño();
+            }
         }
+        //Cada iteración añade las cartas de una altura, de arriba a abajo
+        while (altura > 0) {
+            for (Pila<Carta> p : copia) {
+                if (p.tamaño() == altura) {
+                    sb.append(cadenaCentrada(p.pop().toString(), maxLongitud));
+                } else {
+                    sb.append(cadenaCentrada("", maxLongitud));
+                }
+                sb.append("\t");
+            }
+            altura--;
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 
-        return toRet.toString();
+    /**
+     * Devuelve una cadena alineada al centro
+     *
+     * @param cadena String que se pondrá en el medio
+     * @param lon longitud total de la cadena a devolver
+     * @return la cadena con los espacios necesarios a cada lado para que esté
+     * centrada y su longitud total sea lon, como String
+     */
+    private static String cadenaCentrada(String cadena, int lon) {
+        StringBuilder sb = new StringBuilder();
+        int izq = (lon - cadena.length()) / 2;
+        int der = (lon - cadena.length()) / 2 + (lon - cadena.length()) % 2;
+
+        for (int i = 0; i < izq; i++) {
+            sb.append(" ");
+        }
+        sb.append(cadena);
+        for (int i = 0; i < der; i++) {
+            sb.append(" ");
+        }
+        return sb.toString();
     }
 
 }
