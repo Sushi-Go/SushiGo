@@ -34,11 +34,11 @@ public class Baraja {
     }
     
     /**
-     * Devuelve la primera carta de la baraja
+     * Elimina y devuelve la primera carta de la baraja
      * 
      * @return la primera Carta de la pila
      */
-    public Carta quitarCarta() {
+    public Carta cogerCarta() {
         return baraja.pop();
     }
     
@@ -51,7 +51,7 @@ public class Baraja {
         int random;
 
         for (int i = 0; !baraja.esVacio(); i++) {
-            aux[i] = quitarCarta();
+            aux[i] = cogerCarta();
         }
 
         for (int i = numCartas - 1; i >= 0; i--) {
