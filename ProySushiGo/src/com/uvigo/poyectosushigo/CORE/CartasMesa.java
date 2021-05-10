@@ -29,18 +29,19 @@ public class CartasMesa {
         Pila<Carta> temp=new EnlazadaPila<>();
         
         for(Pila<Carta> i: cartasMesa){
-            c=i.pop();
-            switch(c.getNombre()){
+            switch(i.top().getNombre()){
                 case "Tempura":
-                    contadorTempura++;
-                    if(contadorTempura!=0 && contadorTempura%2==0){
-                        puntos+=5;
+                    if(i.tamaño()%2==0 && i.tamaño()!=0){
+                        for(int j=0;j<i.tamaño();j=j+2){
+                            puntos+=5;
+                        }
                     }
                     break;
                 case "Sashimi":
-                    contadorSashimi++;
-                    if(contadorSashimi!=1 && contadorSashimi%3==0){
-                        puntos+=10;
+                    if(i.tamaño()%3==0 && i.tamaño()!=0){
+                        for(int j=0;j<i.tamaño();j=j+3){
+                            puntos+=10;
+                        }
                     }
                     break;
                 case "Gyoza":
@@ -68,7 +69,6 @@ public class CartasMesa {
                     
                     break;
             }
-            temp.push(c);
         }
         return puntos;
     }
