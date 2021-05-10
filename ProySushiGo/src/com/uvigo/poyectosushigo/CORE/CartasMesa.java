@@ -45,7 +45,22 @@ public class CartasMesa {
                     }
                     break;
                 case "Gyoza":
-                    
+                    switch (i.tamaño()) {
+                        case 1:
+                            puntos+=1;
+                            break;
+                        case 2:
+                            puntos+=3;
+                            break;
+                        case 3:
+                            puntos+=6;
+                            break;
+                        case 4:
+                            puntos+=10;
+                            break;
+                        default:
+                            puntos+=15;
+                    }
                     break;
                 case "Maki de 1 rollo":
                     
