@@ -50,6 +50,7 @@ public class Mano {
         
         while (it.hasNext() && pos != i) {
             it.next();
+            i++;
         }
         if (it.hasNext()) {
             return (Carta) it.next();

@@ -246,7 +246,7 @@ public class CartasMesa {
             return pila;
         }
         for (Pila<Carta> actual : cartasMesa) {
-            if (actual.top().getNombre().startsWith(buscar)) {
+            if (!actual.esVacio() && actual.top().getNombre().startsWith(buscar)) {
                 actual.push(carta);
                 return actual;
             }
