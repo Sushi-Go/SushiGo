@@ -5,19 +5,18 @@
  */
 package com.uvigo.poyectosushigo.CORE;
 
-import java.util.Iterator;
-import lista.Lista;
-import lista.ListaEnlazada;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Mano {
     
-    private final Lista<Carta> cartasMano;
+    private final List<Carta> cartasMano;
     
     /**
      * Crea una mano de cartas
      */
     public Mano() {
-        cartasMano = new ListaEnlazada<>();
+        cartasMano = new ArrayList<>();
     }
     
     /**
@@ -26,7 +25,7 @@ public class Mano {
      * @return el número de cartas, como int
      */
     public int getNumCartas() {
-        return cartasMano.tamaño();
+        return cartasMano.size();
     }
 
     /**
@@ -35,7 +34,7 @@ public class Mano {
      * @param carta Carta a añadir
      */
     public void addCarta(Carta carta) {
-        cartasMano.insertarFinal(carta);
+        cartasMano.add(carta);
     }
     
     /**
@@ -45,18 +44,7 @@ public class Mano {
      * @return la Carta de esa posición
      */
     public Carta cogerCarta(int pos) {
-        Iterator it = cartasMano.iterator();
-        int i = 1;
-        
-        while (it.hasNext() && pos != i) {
-            it.next();
-            i++;
-        }
-        if (it.hasNext()) {
-            return (Carta) it.next();
-        } else {
-            return null;
-        }
+        return cartasMano.remove(pos - 1);
     }
 
     @Override

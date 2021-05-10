@@ -1,17 +1,21 @@
+/*
+* Representa la baraja del sushiGo, 94 cartas, cada una representa a una comida 
+* Estructura: se utilizará un TAD adecuado
+* Funcionalidad: estando la baraja desordenada, devolverá la carta situada encima del montón de cartas
+ */
 package com.uvigo.poyectosushigo.CORE;
 
-import pila.EnlazadaPila;
-import pila.Pila;
+import java.util.Stack;
 
 public class Baraja {
     
-    private final Pila<Carta> baraja;
+    private final Stack<Carta> baraja;
     
     /**
      * Crea una baraja con todas las cartas
      */
     public Baraja() {
-        baraja = new EnlazadaPila<>();
+        baraja = new Stack<>();
         addCartas("Nigiri de calamar", 5);
         addCartas("Nigiri de salmón", 10);
         addCartas("Nigiri de tortilla", 5);
@@ -30,7 +34,7 @@ public class Baraja {
      * @return el número de cartas, como int
      */
     public int numCartas() {
-        return baraja.tamaño();
+        return baraja.size();
     }
     
     /**
@@ -50,7 +54,7 @@ public class Baraja {
         Carta[] aux = new Carta[numCartas];
         int random;
         //Mueve todas las cartas a un array
-        for (int i = 0; !baraja.esVacio(); i++) {
+        for (int i = 0; !baraja.empty(); i++) {
             aux[i] = cogerCarta();
         }
         //En cada iteración mueve una carta aleatoria del array a la baraja

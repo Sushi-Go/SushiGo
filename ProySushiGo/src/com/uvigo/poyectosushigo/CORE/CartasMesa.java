@@ -5,22 +5,23 @@
  */
 package com.uvigo.poyectosushigo.CORE;
 
-import lista.*;
-import pila.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public class CartasMesa {
 
-    private final Lista<Pila<Carta>> cartasMesa;
+    private final List<Stack<Carta>> cartasMesa;
     private int puntosBase;
     private int numRollos;
 
     /**
-     * Crea un nuevo cartasMesa
+     * Crea un nuevo cartasMesa vacío
      */
     public CartasMesa() {
-        this.cartasMesa = new ListaEnlazada<>();
-        puntosBase = 0;
-        numRollos = 0;
+        this.cartasMesa = new ArrayList<>();
+        this.puntosBase = 0;
+        this.numRollos = 0;
     }
 
     //Calcula la puntuacion de las cartas
@@ -144,7 +145,6 @@ public class CartasMesa {
             } else if (carta.getNombre().endsWith("tortilla")) {
                 nuevosPuntos = 1;
             }
-
             if (apilar(carta, "Wasabi") != null) {
                 nuevosPuntos *= 3;
             } else {
@@ -164,35 +164,35 @@ public class CartasMesa {
             numRollos += Integer.parseInt(carta.getNombre().substring(8, 9));
 
         } else if (carta.getNombre().equals("Tempura")) {
-            Pila<Carta> p = apilar(carta, "Tempura");
+            Stack<Carta> s = apilar(carta, "Tempura");
 
-            if (p == null) {
+            if (s == null) {
                 apilar(carta, "");
             } else {
-                if (p.tamaño() % 2 == 0) {
+                if (s.size() % 2 == 0) {
                     nuevosPuntos = 5;
                 }
             }
 
         } else if (carta.getNombre().equals("Sashimi")) {
-            Pila<Carta> p = apilar(carta, "Sashimi");
+            Stack<Carta> s = apilar(carta, "Sashimi");
 
-            if (p == null) {
+            if (s == null) {
                 apilar(carta, "");
             } else {
-                if (p.tamaño() % 3 == 0) {
+                if (s.size() % 3 == 0) {
                     nuevosPuntos = 10;
                 }
             }
 
         } else if (carta.getNombre().equals("Gyoza")) {
-            Pila<Carta> p = apilar(carta, "Gyoza");
+            Stack<Carta> s = apilar(carta, "Gyoza");
 
-            if (p == null) {
-                p = apilar(carta, "");
+            if (s == null) {
+                s = apilar(carta, "");
             }
-            if (p.tamaño() <= 5) {
-                nuevosPuntos = p.tamaño();
+            if (s.size() <= 5) {
+                nuevosPuntos = s.size();
             }
         }
         puntosBase += nuevosPuntos;
@@ -201,21 +201,20 @@ public class CartasMesa {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        Lista<Pila<Carta>> copia = new ListaEnlazada<>();
+        List<Stack<Carta>> copia = List.copyOf(cartasMesa);
         final int maxLongitud = 20; //Mayor longitud posible de Carta.toString()
         int altura = 1;
-
-        for (Pila<Carta> p : cartasMesa) {
-            copia.insertarFinal(p);
-            if (p.tamaño() > altura) {
-                altura = p.tamaño();
+        
+        for (Stack<Carta> s : copia) {
+            if (s.size() > altura) {
+                altura = s.size();
             }
         }
-        //Cada iteración añade las cartas de una altura, de arriba a abajo
+        //Cada iteración añade las cartas de una altura, empezando por arriba
         while (altura > 0) {
-            for (Pila<Carta> p : copia) {
-                if (p.tamaño() == altura) {
-                    sb.append(cadenaCentrada(p.pop().toString(), maxLongitud));
+            for (Stack<Carta> s : copia) {
+                if (s.size() == altura) {
+                    sb.append(cadenaCentrada(s.pop().toString(), maxLongitud));
                 } else {
                     sb.append(cadenaCentrada("", maxLongitud));
                 }
@@ -237,15 +236,15 @@ public class CartasMesa {
      * @param buscar comienzo del nombre de carta que buscamos en las pilas
      * @return la pila en la que se añade la carta, o null si no se encuentra
      */
-    private Pila<Carta> apilar(Carta carta, String buscar) {
+    private Stack<Carta> apilar(Carta carta, String buscar) {
         if (buscar.equals("")) {
-            Pila<Carta> pila = new EnlazadaPila<>();
+            Stack<Carta> pila = new Stack<>();
             pila.push(carta);
-            cartasMesa.insertarFinal(pila);
+            cartasMesa.add(pila);
             return pila;
         }
-        for (Pila<Carta> actual : cartasMesa) {
-            if (!actual.esVacio() && actual.top().getNombre().startsWith(buscar)) {
+        for (Stack<Carta> actual : cartasMesa) {
+            if (!actual.empty() && actual.peek().getNombre().startsWith(buscar)) {
                 actual.push(carta);
                 return actual;
             }
