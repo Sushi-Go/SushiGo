@@ -141,8 +141,7 @@ public class CartasMesa {
                 nuevosPuntos = 3;
             } else if (carta.getNombre().endsWith("salmón")) {
                 nuevosPuntos = 2;
-            }
-            if (carta.getNombre().endsWith("tortilla")) {
+            } else if (carta.getNombre().endsWith("tortilla")) {
                 nuevosPuntos = 1;
             }
 
