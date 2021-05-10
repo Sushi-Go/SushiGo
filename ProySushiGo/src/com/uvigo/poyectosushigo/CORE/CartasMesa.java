@@ -14,7 +14,9 @@ public class CartasMesa {
     private int puntosBase;
     private int numRollos;
 
-    //Crea un nuevo cartasMesa
+    /**
+     * Crea un nuevo cartasMesa
+     */
     public CartasMesa() {
         this.cartasMesa = new ListaEnlazada<>();
         puntosBase = 0;
@@ -126,7 +128,8 @@ public class CartasMesa {
     }
 
     /**
-     * Añade una carta a la mesa en la posición adecuada
+     * Añade una carta a la mesa en la posición adecuada y actualiza puntosBase
+     * y numRollos según la nueva carta
      *
      * @param carta Carta a añadir
      */
@@ -134,16 +137,15 @@ public class CartasMesa {
         int nuevosPuntos = 0;
 
         if (carta.getNombre().startsWith("Nigiri")) {
-            switch (carta.getNombre().substring(10)) {
-                case "calamar":
-                    nuevosPuntos = 3;
-                    break;
-                case "salmón":
-                    nuevosPuntos = 2;
-                    break;
-                case "tortilla":
-                    nuevosPuntos = 1;
+            if (carta.getNombre().endsWith("calamar")) {
+                nuevosPuntos = 3;
+            } else if (carta.getNombre().endsWith("salmón")) {
+                nuevosPuntos = 2;
             }
+            if (carta.getNombre().endsWith("tortilla")) {
+                nuevosPuntos = 1;
+            }
+
             if (apilar(carta, "Wasabi") != null) {
                 nuevosPuntos *= 3;
             } else {
@@ -155,14 +157,42 @@ public class CartasMesa {
             }
         } else if (carta.getNombre().equals("Wasabi")) {
             apilar(carta, "");
-            
+
+        } else if (carta.getNombre().startsWith("Maki")) {
+            if (apilar(carta, "Maki") == null) {
+                apilar(carta, "");
+            }
+            numRollos += Integer.parseInt(carta.getNombre().substring(8, 9));
+
+        } else if (carta.getNombre().equals("Tempura")) {
+            Pila<Carta> p = apilar(carta, "Tempura");
+
+            if (p == null) {
+                apilar(carta, "");
+            } else {
+                if (p.tamaño() % 2 == 0) {
+                    nuevosPuntos = 5;
+                }
+            }
+
+        } else if (carta.getNombre().equals("Sashimi")) {
+            Pila<Carta> p = apilar(carta, "Sashimi");
+
+            if (p == null) {
+                apilar(carta, "");
+            } else {
+                if (p.tamaño() % 3 == 0) {
+                    nuevosPuntos = 10;
+                }
+            }
+
         } else if (carta.getNombre().equals("Gyoza")) {
             Pila<Carta> p = apilar(carta, "Gyoza");
-            
+
             if (p == null) {
                 p = apilar(carta, "");
-            } 
-            if (p.tamaño() <= 5){
+            }
+            if (p.tamaño() <= 5) {
                 nuevosPuntos = p.tamaño();
             }
         }
