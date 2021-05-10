@@ -47,8 +47,8 @@ public class Juego {
                 //Movemos la cartas de las manos a otros jugadores
                 rotarManos(jugadores);
             }
-            //Calculamos y mostramos los resultados de la ronda
-            calcularPuntos(jugadores, ronda);
+            //Contabilizamos los rollos y mostramos los resultados de la ronda
+            addPuntosRollos(jugadores, ronda);
             limpiarMesa(jugadores);
             System.out.println("\nResultados de la ronda " + ronda + ":");
             mostrarPuntos(jugadores);
@@ -81,9 +81,14 @@ public class Juego {
      * @param jugadores array de jugadores
      */
     private static void leeJugadores(Jugador[] jugadores) {
-        System.out.println("Introduce los nombres de cada jugador");
+        System.out.println("\nIntroduce los nombres de cada jugador"+
+                " (máximo 20 caracteres");
         for (int i = 0; i < jugadores.length; i++) {
-            String nombre = pideCadena("Jugador " + (i + 1));
+            String nombre = pideCadena("Jugador " + (i + 1) + ": ");
+            while (nombre.length() > 20) {
+                System.out.println("El máximo de caracteres es 20");
+                nombre = pideCadena("Jugador " + (i + 1) + ": ");
+            }
             jugadores[i] = new Jugador(nombre);
         }
     }
@@ -167,14 +172,30 @@ public class Juego {
     }
 
     /**
-     * Guarda la puntuación de la ronda en base a las cartas de la mesa
+     * Añade puntos a los jugadores en función del total de rollos de maki que
+     * tengan en la mesa
      *
      * @param jugadores array de jugadores
-     * @param ronda
+     * @param ronda ronda en la que se añaden
      */
-    private static void calcularPuntos(Jugador[] jugadores, int ronda) {
+    public static void addPuntosRollos(Jugador[] jugadores, int ronda) {
+        int maxRollos = 0;
+        int numSuman = 1;
+
         for (Jugador j : jugadores) {
-            j.addPuntos(j.getCartasMesa().calcularPuntuacion(), ronda);
+            if (j.getCartasMesa().getNumRollos() > maxRollos) {
+                maxRollos = j.getCartasMesa().getNumRollos();
+                numSuman = 1;
+            } else if (j.getCartasMesa().getNumRollos() == maxRollos) {
+                numSuman++;
+            }
+        }
+        if (maxRollos != 0) {
+            for (Jugador j : jugadores) {
+                if (j.getCartasMesa().getNumRollos() == maxRollos) {
+                    j.addPuntos(6 / numSuman, ronda);
+                }
+            }
         }
     }
 
