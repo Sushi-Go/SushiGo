@@ -14,15 +14,14 @@ public class CartasMesa {
     private int puntosBase;
     private int numRollos;
 
-    /**
-     * Crea un nuevo cartasMesa
-     */
+    //Crea un nuevo cartasMesa
     public CartasMesa() {
         this.cartasMesa = new ListaEnlazada<>();
         puntosBase = 0;
         numRollos = 0;
     }
 
+    //Calcula la puntuacion de las cartas
     public int calcularPuntuacion() {
         int puntos=0,contadorTempura=0,contadorSashimi=0;
         Carta c;
