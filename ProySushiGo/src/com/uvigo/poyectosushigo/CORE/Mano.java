@@ -38,7 +38,7 @@ public class Mano {
     }
     
     /**
-     * Elimina y devuelve una carta de la mano, o null si pos no es válido
+     * Elimina y devuelve una carta de la mano
      * 
      * @param pos posición de la carta, empezando en 1
      * @return la Carta de esa posición

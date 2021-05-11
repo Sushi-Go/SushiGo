@@ -17,7 +17,7 @@ public class CartasMesa {
     private int numRollos;
 
     /**
-     * Crea un nuevo cartasMesa vacío
+     * Crea un nuevo CartasMesa vacío
      */
     public CartasMesa() {
         this.cartasMesa = new ArrayList<>();
@@ -93,16 +93,16 @@ public class CartasMesa {
     /**
      * Devuelve los puntos base de la mesa
      *
-     * @return la suma de todos los puntos, excepto los makis
+     * @return la suma de todos los puntos, excepto los makis, como int
      */
     public int getPuntosBase() {
         return puntosBase;
     }
 
     /**
-     * Devuelve el total de rollos
+     * Devuelve el total de rollos de de maki
      *
-     * @return la suma de los rollos de todas las cartas de la mesa
+     * @return la suma de los rollos de todas las cartas de la mesa, como int
      */
     public int getNumRollos() {
         return numRollos;
@@ -215,7 +215,7 @@ public class CartasMesa {
             for (Stack<Carta> pila : copia) {
                 if (pila.size() == altura) {
                     sb.append(cadenaCentrada(
-                            pila.pop().toString(),MAX_LONG_CARTA));
+                            pila.pop().toString(), MAX_LONG_CARTA));
                 } else {
                     sb.append(cadenaCentrada("", MAX_LONG_CARTA));
                 }
@@ -228,10 +228,9 @@ public class CartasMesa {
     }
 
     /**
-     * Devuelve la pila en la que se inserta 'carta'. Si 'buscar' es "", 'carta'
-     * se añade a una pila nueva (que se devuelve). Si no, busca la pila que
-     * empiece por 'buscar', y si la encuentra, añade 'carta' y devuelve la
-     * pila. Si no encuentra la pila, 'carta' no se inserta y devuelve null.
+     * Busca una pila, añade una carta y devuelve la pila. Si 'buscar' es una
+     * cadena vacía, se añade otra pila sobre la que se pone la carta (y se
+     * devuelve esa pila). Si no se encuentra la pila devuelve null
      *
      * @param carta carta a añadir
      * @param buscar comienzo del nombre de carta que buscamos en las pilas
@@ -244,10 +243,10 @@ public class CartasMesa {
             cartasMesa.add(pila);
             return pila;
         }
-        for (Stack<Carta> actual : cartasMesa) {
-            if (!actual.empty() && actual.peek().getNombre().startsWith(buscar)) {
-                actual.push(carta);
-                return actual;
+        for (Stack<Carta> pila : cartasMesa) {
+            if (!pila.empty() && pila.peek().getNombre().startsWith(buscar)) {
+                pila.push(carta);
+                return pila;
             }
         }
         return null;
@@ -256,7 +255,7 @@ public class CartasMesa {
     /**
      * Devuelve una cadena alineada al centro
      *
-     * @param cadena String que se pondrá en el medio
+     * @param cadena String que se pondrá en el centro
      * @param lon longitud total de la cadena a devolver
      * @return la cadena con los espacios necesarios a cada lado para que esté
      * centrada y su longitud total sea lon, como String

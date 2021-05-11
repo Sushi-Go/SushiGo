@@ -16,7 +16,7 @@ public class Jugador {
     private final int puntos[];
 
     /**
-     * Crea un jugador
+     * Crea un nuevo jugador
      *
      * @param nombre nombre del jugador
      */

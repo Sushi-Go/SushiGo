@@ -18,7 +18,7 @@ public class Juego {
 
     public static void inicio() {
 
-        creditos();
+        mostrarCreditos();
         Jugador[] jugadores;
 
         //Obtenemos el número de jugadores y sus nombres
@@ -33,12 +33,7 @@ public class Juego {
 
         //Cada iteración es una ronda
         for (int ronda = 1; ronda <= RONDAS; ronda++) {
-            System.out.println("");
-            System.out.println("\t┌---------┐");
-            System.out.println("\t│ RONDA " + ronda + " │");
-            System.out.println("\t└---------┘\n");
-            pulsaEnter();
-
+            mostrarRonda(ronda);
             repartirCartas(jugadores, baraja);
 
             //Cada iteración es una serie de turnos (todos los jugadores)
@@ -68,28 +63,40 @@ public class Juego {
                 pulsaEnter();
             }
         }
-        //Al acabar todas las rondas mostramos el ganador
-        System.out.println("\nEl ganador es..."
-                + ganador(jugadores).getNombre() + "! Enhorabuena!");
+        //Acabamos todas las rondas
+        mostrarGanadores(jugadores);
     }
-    
+
     /**
-     * Muestra el título y los autores
+     * Muestra el título
      */
-    public static void creditos() {
+    private static void mostrarCreditos() {
         System.out.println(""
-                + "     __^__                  __^__\n"
-                + "    ( ___ )----------------( ___ )\n"
-                + "     | / |                  | \\ |\n"
-                + "     | / |     SUSHI GO     | \\ |\n"
-                + "     |___|                  |___|\n"
-                + "    (_____)----------------(_____)\n\n");
+                + "     __^__                   __^__\n"
+                + "    ( ___ )-----------------( ___ )\n"
+                + "     | / |                   | \\ |\n"
+                + "     | / |     SUSHI GO!     | \\ |\n"
+                + "     |___|                   |___|\n"
+                + "    (_____)-----------------(_____)\n\n");
+    }
+
+    /**
+     * Informa sobre el comienzo o cambio de ronda
+     *
+     * @param ronda número de la ronda
+     */
+    private static void mostrarRonda(int ronda) {
+        System.out.println("");
+        System.out.println("\t┌---------┐");
+        System.out.println("\t│ RONDA " + ronda + " │");
+        System.out.println("\t└---------┘\n");
+        pulsaEnter();
     }
 
     /**
      * Pide el número de jugadores por teclado y lo devuelve
      *
-     * @return el número de jugadores, como entero
+     * @return el número de jugadores, como int
      */
     private static int pideNumJugadores() {
         int toret = pideEntero("Número de jugadores: ");
@@ -113,7 +120,7 @@ public class Juego {
             String nombre = pideCadena("Jugador " + (i + 1) + ": ");
 
             while (nombre.length() > MAX_LONG_NOMBRE) {
-                System.out.println("El máximo de caracteres es "
+                System.err.println("El máximo de caracteres es "
                         + MAX_LONG_NOMBRE);
                 nombre = pideCadena("Jugador " + (i + 1) + ": ");
             }
@@ -165,7 +172,6 @@ public class Juego {
             System.out.println(j.getNombre() + "\n");
             System.out.println(j.getCartasMesa().toString());
         }
-
     }
 
     /**
@@ -208,24 +214,24 @@ public class Juego {
      * @param jugadores array de jugadores
      * @param ronda ronda en la que se añaden
      */
-    public static void contarPuntos(Jugador[] jugadores, int ronda) {
+    private static void contarPuntos(Jugador[] jugadores, int ronda) {
         int maxRollos = 0;
-        int numSuman = 1;
+        int cuantosGananRollos = 1;
 
         for (Jugador j : jugadores) {
             j.addPuntos(j.getCartasMesa().getPuntosBase(), ronda);
 
             if (j.getCartasMesa().getNumRollos() > maxRollos) {
                 maxRollos = j.getCartasMesa().getNumRollos();
-                numSuman = 1;
+                cuantosGananRollos = 1;
             } else if (j.getCartasMesa().getNumRollos() == maxRollos) {
-                numSuman++;
+                cuantosGananRollos++;
             }
         }
         if (maxRollos != 0) {
             for (Jugador j : jugadores) {
                 if (j.getCartasMesa().getNumRollos() == maxRollos) {
-                    j.addPuntos(6 / numSuman, ronda);
+                    j.addPuntos(6 / cuantosGananRollos, ronda);
                 }
             }
         }
@@ -243,7 +249,7 @@ public class Juego {
     }
 
     /**
-     * Muestra las puntuaciones de los jugadores (en cada ronda y el total)
+     * Muestra las puntuaciones de los jugadores en cada ronda y su total
      *
      * @param jugadores array de jugadores
      */
@@ -269,19 +275,35 @@ public class Juego {
     }
 
     /**
-     * Devuelve el jugador con más puntos
+     * Muestra por pantalla el o los ganadores del juego
      *
      * @param jugadores array de jugadores
-     * @return el jugador con una puntación mayor
      */
-    private static Jugador ganador(Jugador[] jugadores) {
-        Jugador toret = jugadores[0];
+    private static void mostrarGanadores(Jugador[] jugadores) {
+        Jugador[] ganadores = new Jugador[jugadores.length];
+        ganadores[0] = jugadores[0];
+        int numGanadores = 1;
+
+        //Ignoraremos los jugadores de ganadores de índice >= numGanadores
         for (int i = 1; i < jugadores.length; i++) {
-            if (jugadores[i].getPuntos() > toret.getPuntos()) {
-                toret = jugadores[i];
+            if (jugadores[i].getPuntos() > ganadores[0].getPuntos()) {
+                ganadores[0] = jugadores[0];
+                numGanadores = 1;
+            } else if (jugadores[i].getPuntos() == ganadores[0].getPuntos()) {
+                ganadores[numGanadores++] = jugadores[i];
             }
         }
-        return toret;
+        //Mostramos por pantalla
+        if (numGanadores == 1) {
+            System.out.println("El ganador es "
+                    + ganadores[0].getNombre() + "!");
+        } else {
+            System.out.println("Hay empate! Los ganadores son:");
+            for (int i = 0; i < numGanadores; i++) {
+                System.out.println(ganadores[i].getNombre());
+            }
+        }
+        System.out.println("Enhorabuena!");
     }
 
 }
