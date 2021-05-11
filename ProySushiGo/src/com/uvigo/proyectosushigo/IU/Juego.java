@@ -33,9 +33,11 @@ public class Juego {
 
         //Cada iteración es una ronda
         for (int ronda = 1; ronda <= RONDAS; ronda++) {
-            System.out.println("─────────");
-            System.out.println("RONDA 1");
-            System.out.println("─────────");
+            System.out.println("");
+            System.out.println("\t┌---------┐");
+            System.out.println("\t│ RONDA " + ronda + " │");
+            System.out.println("\t└---------┘\n");
+            pulsaEnter();
 
             repartirCartas(jugadores, baraja);
 
@@ -63,9 +65,7 @@ public class Juego {
             mostrarPuntos(jugadores);
             pulsaEnter();
         }
-        //Al acabar todas las rondas mostramos los resultados y el ganador
-        System.out.println("\nResultados finales:");
-        mostrarPuntos(jugadores);
+        //Al acabar todas las rondas mostramos el ganador
         System.out.println("\nEl ganador es..."
                 + ganador(jugadores).getNombre() + "! Enhorabuena!");
     }
@@ -245,7 +245,7 @@ public class Juego {
      * @param jugadores array de jugadores
      */
     private static void mostrarPuntos(Jugador[] jugadores) {
-        String formato = "%-" + MAX_LONG_NOMBRE + "s\t%7s\t%7s\t%7s\t%5s\n";
+        String formato = "%-" + MAX_LONG_NOMBRE + "s\t%10s%10s%10s%10s\n";
         System.out.println("");
         System.out.printf(formato, "Jugadores", "Ronda 1", "Ronda 2",
                 "Ronda 3", "Total");
