@@ -59,11 +59,14 @@ public class Juego {
                 rotarManos(jugadores);
             }
             //Contabilizamos los puntos y mostramos los resultados de la ronda
+            mostrarMesa(jugadores);
             contarPuntos(jugadores, ronda);
             limpiarMesa(jugadores);
             System.out.println("\nResultados de la ronda " + ronda + ":");
             mostrarPuntos(jugadores);
-            pulsaEnter();
+            if (ronda != RONDAS) {
+                pulsaEnter();
+            }
         }
         //Al acabar todas las rondas mostramos el ganador
         System.out.println("\nEl ganador es..."
