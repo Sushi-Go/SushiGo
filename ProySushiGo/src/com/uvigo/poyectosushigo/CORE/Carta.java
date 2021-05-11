@@ -5,6 +5,9 @@ package com.uvigo.poyectosushigo.CORE;
 
 public class Carta {
 
+    //Máxima longitud posible de Carta.toString()
+    public static int MAX_LONG_CARTA = 20; 
+    
     private final String nombre;
 
     /**

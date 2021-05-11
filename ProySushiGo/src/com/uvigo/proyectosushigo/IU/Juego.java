@@ -10,15 +10,20 @@ import static com.uvigo.proyectosushigo.IU.Main.RONDAS;
 
 public class Juego {
 
+    //Número máximo de jugadores
+    public static final int MAX_NUM_JUGADORES = 5;
+
+    //Máima longitud posible de los nombres de los jugadores
+    public static final int MAX_LONG_NOMBRE = 30;
+
     public static void inicio() {
 
+        creditos();
         Jugador[] jugadores;
 
-        //Texto de introducción, título, etc
-        System.out.println("");
-
         //Obtenemos el número de jugadores y sus nombres
-        System.out.println("El mínimo de jugadores es 2, y el máximo 5");
+        System.out.println("El mínimo de jugadores es 2, y el máximo "
+                + MAX_NUM_JUGADORES);
         jugadores = new Jugador[pideNumJugadores()];
         leeJugadores(jugadores);
 
@@ -28,6 +33,10 @@ public class Juego {
 
         //Cada iteración es una ronda
         for (int ronda = 1; ronda <= RONDAS; ronda++) {
+            System.out.println("─────────");
+            System.out.println("RONDA 1");
+            System.out.println("─────────");
+
             repartirCartas(jugadores, baraja);
 
             //Cada iteración es una serie de turnos (todos los jugadores)
@@ -37,7 +46,7 @@ public class Juego {
                 //Cada iteración es un turno
                 for (int i = 0; i < jugadores.length; i++) {
                     mostrarMesa(jugadores);
-                    int jugada = pideCarta(jugadores[i].getMano());
+                    int jugada = pideCarta(jugadores[i]);
                     pendientes[i] = jugadores[i].getMano().cogerCarta(jugada);
                 }
                 //Ponemos las cartas pendientes de cada jugador en la mesa
@@ -47,8 +56,8 @@ public class Juego {
                 //Movemos la cartas de las manos a otros jugadores
                 rotarManos(jugadores);
             }
-            //Contabilizamos los rollos y mostramos los resultados de la ronda
-            addPuntosRollos(jugadores, ronda);
+            //Contabilizamos los puntos y mostramos los resultados de la ronda
+            contarPuntos(jugadores, ronda);
             limpiarMesa(jugadores);
             System.out.println("\nResultados de la ronda " + ronda + ":");
             mostrarPuntos(jugadores);
@@ -60,6 +69,19 @@ public class Juego {
         System.out.println("\nEl ganador es..."
                 + ganador(jugadores).getNombre() + "! Enhorabuena!");
     }
+    
+    /**
+     * Muestra el título y los autores
+     */
+    public static void creditos() {
+        System.out.println(""
+                + "     __^__                  __^__\n"
+                + "    ( ___ )----------------( ___ )\n"
+                + "     | / |                  | \\ |\n"
+                + "     | / |     SUSHI GO     | \\ |\n"
+                + "     |___|                  |___|\n"
+                + "    (_____)----------------(_____)\n\n");
+    }
 
     /**
      * Pide el número de jugadores por teclado y lo devuelve
@@ -69,7 +91,7 @@ public class Juego {
     private static int pideNumJugadores() {
         int toret = pideEntero("Número de jugadores: ");
 
-        while (toret < 2 || toret > 5) {
+        while (toret < 2 || toret > MAX_NUM_JUGADORES) {
             toret = pideEntero("Número de jugadores: ");
         }
         return toret;
@@ -81,12 +103,15 @@ public class Juego {
      * @param jugadores array de jugadores
      */
     private static void leeJugadores(Jugador[] jugadores) {
-        System.out.println("\nIntroduce los nombres de cada jugador"+
-                " (máximo 20 caracteres");
+        System.out.println("\nIntroduce los nombres de cada jugador"
+                + " (máximo " + MAX_LONG_NOMBRE + " caracteres)");
+
         for (int i = 0; i < jugadores.length; i++) {
             String nombre = pideCadena("Jugador " + (i + 1) + ": ");
-            while (nombre.length() > 20) {
-                System.out.println("El máximo de caracteres es 20");
+
+            while (nombre.length() > MAX_LONG_NOMBRE) {
+                System.out.println("El máximo de caracteres es "
+                        + MAX_LONG_NOMBRE);
                 nombre = pideCadena("Jugador " + (i + 1) + ": ");
             }
             jugadores[i] = new Jugador(nombre);
@@ -134,25 +159,27 @@ public class Juego {
         System.out.println("\nEstado actual de la mesa\n");
 
         for (Jugador j : jugadores) {
-            System.out.println(j.getNombre());
-            System.out.println(j.getCartasMesa().toString() + "\n");
+            System.out.println(j.getNombre() + "\n");
+            System.out.println(j.getCartasMesa().toString());
         }
+
     }
 
     /**
-     * Devuelve el índice de la carta que quieres jugar el usuario
+     * Devuelve el índice de la carta que quiere jugar el usuario
      *
-     * @param mano mano del jugador que elige la carta
+     * @param jugador el jugador que elige la carta
      * @return el índice de la carta que elige el usuario, como int
      */
-    private static int pideCarta(Mano mano) {
+    private static int pideCarta(Jugador jugador) {
         System.out.println("Tu mano: ");
-        System.out.println(mano.toString());
+        System.out.println(jugador.getMano().toString());
         int toret;
 
         do {
-            toret = pideEntero("Selecciona una carta: ");
-        } while (toret < 1 || toret > mano.getNumCartas());
+            toret = pideEntero("Selecciona una carta, "
+                    + jugador.getNombre() + ": ");
+        } while (toret < 1 || toret > jugador.getMano().getNumCartas());
 
         return toret;
     }
@@ -172,17 +199,19 @@ public class Juego {
     }
 
     /**
-     * Añade puntos a los jugadores en función del total de rollos de maki que
-     * tengan en la mesa
+     * Añade a los jugadores los puntos de su mesa y los correspondientes a su
+     * número de rollos de maki
      *
      * @param jugadores array de jugadores
      * @param ronda ronda en la que se añaden
      */
-    public static void addPuntosRollos(Jugador[] jugadores, int ronda) {
+    public static void contarPuntos(Jugador[] jugadores, int ronda) {
         int maxRollos = 0;
         int numSuman = 1;
 
         for (Jugador j : jugadores) {
+            j.addPuntos(j.getCartasMesa().getPuntosBase(), ronda);
+
             if (j.getCartasMesa().getNumRollos() > maxRollos) {
                 maxRollos = j.getCartasMesa().getNumRollos();
                 numSuman = 1;
@@ -216,13 +245,14 @@ public class Juego {
      * @param jugadores array de jugadores
      */
     private static void mostrarPuntos(Jugador[] jugadores) {
+        String formato = "%-" + MAX_LONG_NOMBRE + "s\t%7s\t%7s\t%7s\t%5s\n";
         System.out.println("");
-        System.out.printf("%-20s\t%7s\t%7s\t%7s\t%5s\n",
-                "Jugadores", "Ronda 1", "Ronda 2", "Ronda 3", "Total");
+        System.out.printf(formato, "Jugadores", "Ronda 1", "Ronda 2",
+                "Ronda 3", "Total");
+
         for (Jugador j : jugadores) {
-            System.out.printf("%-20s\t%7d\t%7d\t%7d\t%5d\n",
-                    j.getNombre(), j.getPuntos(1), j.getPuntos(2),
-                    j.getPuntos(3), j.getPuntos());
+            System.out.printf(formato, j.getNombre(), j.getPuntos(1),
+                    j.getPuntos(2), j.getPuntos(3), j.getPuntos());
         }
         System.out.println("");
     }

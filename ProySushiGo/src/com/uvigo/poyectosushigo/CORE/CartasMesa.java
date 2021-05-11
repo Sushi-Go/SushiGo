@@ -8,6 +8,7 @@ package com.uvigo.poyectosushigo.CORE;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import static com.uvigo.poyectosushigo.CORE.Carta.MAX_LONG_CARTA;
 
 public class CartasMesa {
 
@@ -25,80 +26,79 @@ public class CartasMesa {
     }
 
     //Calcula la puntuacion de las cartas
-    public int calcularPuntuacion() {
-        int puntos=0,contadorTempura=0,contadorSashimi=0;
-        Carta c;
-        Pila<Carta> temp=new EnlazadaPila<>();
-        
-        for(Pila<Carta> i: cartasMesa){
-            switch(i.top().getNombre()){
-                case "Tempura":
-                    if(i.tamaño()%2==0 && i.tamaño()!=0){
-                        for(int j=0;j<i.tamaño();j=j+2){
-                            puntos+=5;
-                        }
-                    }
-                    break;
-                case "Sashimi":
-                    if(i.tamaño()%3==0 && i.tamaño()!=0){
-                        for(int j=0;j<i.tamaño();j=j+3){
-                            puntos+=10;
-                        }
-                    }
-                    break;
-                case "Gyoza":
-                    switch (i.tamaño()) {
-                        case 1:
-                            puntos+=1;
-                            break;
-                        case 2:
-                            puntos+=3;
-                            break;
-                        case 3:
-                            puntos+=6;
-                            break;
-                        case 4:
-                            puntos+=10;
-                            break;
-                        default:
-                            puntos+=15;
-                    }
-                    break;
-                case "Maki de 1 rollo":
-                    
-                    break;
-                case "Maki de 2 rollos":
-                    
-                    break;
-                case "Maki de 3 rollos":
-                    
-                    break;
-                case "Wasabi":
-                    
-                    break;
-                case "Nigiri de calamar":
-                    
-                    break;
-                case "Nigiri de salmon":
-                    
-                    break;
-                case "Nigiri de tortilla":
-                    
-                    break;
-            }
-        }
-        return puntos;
-    }
-    
+//    public int calcularPuntuacion() {
+//        int puntos=0,contadorTempura=0,contadorSashimi=0;
+//        Carta c;
+//        Pila<Carta> temp=new EnlazadaPila<>();
+//        
+//        for(Pila<Carta> i: cartasMesa){
+//            switch(i.top().getNombre()){
+//                case "Tempura":
+//                    if(i.tamaño()%2==0 && i.tamaño()!=0){
+//                        for(int j=0;j<i.tamaño();j=j+2){
+//                            puntos+=5;
+//                        }
+//                    }
+//                    break;
+//                case "Sashimi":
+//                    if(i.tamaño()%3==0 && i.tamaño()!=0){
+//                        for(int j=0;j<i.tamaño();j=j+3){
+//                            puntos+=10;
+//                        }
+//                    }
+//                    break;
+//                case "Gyoza":
+//                    switch (i.tamaño()) {
+//                        case 1:
+//                            puntos+=1;
+//                            break;
+//                        case 2:
+//                            puntos+=3;
+//                            break;
+//                        case 3:
+//                            puntos+=6;
+//                            break;
+//                        case 4:
+//                            puntos+=10;
+//                            break;
+//                        default:
+//                            puntos+=15;
+//                    }
+//                    break;
+//                case "Maki de 1 rollo":
+//                    
+//                    break;
+//                case "Maki de 2 rollos":
+//                    
+//                    break;
+//                case "Maki de 3 rollos":
+//                    
+//                    break;
+//                case "Wasabi":
+//                    
+//                    break;
+//                case "Nigiri de calamar":
+//                    
+//                    break;
+//                case "Nigiri de salmon":
+//                    
+//                    break;
+//                case "Nigiri de tortilla":
+//                    
+//                    break;
+//            }
+//        }
+//        return puntos;
+//    }
     /**
      * Devuelve los puntos base de la mesa
-     * 
+     *
      * @return la suma de todos los puntos, excepto los makis
      */
     public int getPuntosBase() {
         return puntosBase;
     }
-    
+
     /**
      * Devuelve el total de rollos
      *
@@ -107,24 +107,24 @@ public class CartasMesa {
     public int getNumRollos() {
         return numRollos;
     }
-    
+
     public int calcularNumRollitos(Carta c) {
-        int toRet=0;
-        
-        switch(c.getNombre()){
+        int toRet = 0;
+
+        switch (c.getNombre()) {
             case "Maki de 1 rollo":
-                toRet=1;
+                toRet = 1;
                 break;
             case "Maki de 2 rollos":
-                toRet=2;
+                toRet = 2;
                 break;
             case "Maki de 3 rollos":
-                toRet=3;
+                toRet = 3;
                 break;
             default:
                 System.err.println("La carta no es un maki");
         }
-        
+
         return toRet;
     }
 
@@ -164,35 +164,35 @@ public class CartasMesa {
             numRollos += Integer.parseInt(carta.getNombre().substring(8, 9));
 
         } else if (carta.getNombre().equals("Tempura")) {
-            Stack<Carta> s = apilar(carta, "Tempura");
+            Stack<Carta> pila = apilar(carta, "Tempura");
 
-            if (s == null) {
+            if (pila == null) {
                 apilar(carta, "");
             } else {
-                if (s.size() % 2 == 0) {
+                if (pila.size() % 2 == 0) {
                     nuevosPuntos = 5;
                 }
             }
 
         } else if (carta.getNombre().equals("Sashimi")) {
-            Stack<Carta> s = apilar(carta, "Sashimi");
+            Stack<Carta> pila = apilar(carta, "Sashimi");
 
-            if (s == null) {
+            if (pila == null) {
                 apilar(carta, "");
             } else {
-                if (s.size() % 3 == 0) {
+                if (pila.size() % 3 == 0) {
                     nuevosPuntos = 10;
                 }
             }
 
         } else if (carta.getNombre().equals("Gyoza")) {
-            Stack<Carta> s = apilar(carta, "Gyoza");
+            Stack<Carta> pila = apilar(carta, "Gyoza");
 
-            if (s == null) {
-                s = apilar(carta, "");
+            if (pila == null) {
+                pila = apilar(carta, "");
             }
-            if (s.size() <= 5) {
-                nuevosPuntos = s.size();
+            if (pila.size() <= 5) {
+                nuevosPuntos = pila.size();
             }
         }
         puntosBase += nuevosPuntos;
@@ -201,22 +201,23 @@ public class CartasMesa {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        List<Stack<Carta>> copia = List.copyOf(cartasMesa);
-        final int maxLongitud = 20; //Mayor longitud posible de Carta.toString()
+        List<Stack<Carta>> copia = new ArrayList<>(cartasMesa.size());
         int altura = 1;
-        
-        for (Stack<Carta> s : copia) {
-            if (s.size() > altura) {
-                altura = s.size();
+
+        for (Stack<Carta> pila : cartasMesa) {
+            copia.add((Stack<Carta>) pila.clone());
+            if (pila.size() > altura) {
+                altura = pila.size();
             }
         }
         //Cada iteración añade las cartas de una altura, empezando por arriba
         while (altura > 0) {
-            for (Stack<Carta> s : copia) {
-                if (s.size() == altura) {
-                    sb.append(cadenaCentrada(s.pop().toString(), maxLongitud));
+            for (Stack<Carta> pila : copia) {
+                if (pila.size() == altura) {
+                    sb.append(cadenaCentrada(
+                            pila.pop().toString(),MAX_LONG_CARTA));
                 } else {
-                    sb.append(cadenaCentrada("", maxLongitud));
+                    sb.append(cadenaCentrada("", MAX_LONG_CARTA));
                 }
                 sb.append("\t");
             }
@@ -229,7 +230,7 @@ public class CartasMesa {
     /**
      * Devuelve la pila en la que se inserta 'carta'. Si 'buscar' es "", 'carta'
      * se añade a una pila nueva (que se devuelve). Si no, busca la pila que
-     * empiece por 'buscar', y si la encuentra, añade 'carta' y devuelve la 
+     * empiece por 'buscar', y si la encuentra, añade 'carta' y devuelve la
      * pila. Si no encuentra la pila, 'carta' no se inserta y devuelve null.
      *
      * @param carta carta a añadir
