@@ -287,7 +287,7 @@ public class Juego {
         //Ignoraremos los jugadores de 'ganadores' de índice >= numGanadores
         for (int i = 1; i < jugadores.length; i++) {
             if (jugadores[i].getPuntos() > ganadores[0].getPuntos()) {
-                ganadores[0] = jugadores[0];
+                ganadores[0] = jugadores[i];
                 numGanadores = 1;
             } else if (jugadores[i].getPuntos() == ganadores[0].getPuntos()) {
                 ganadores[numGanadores++] = jugadores[i];
