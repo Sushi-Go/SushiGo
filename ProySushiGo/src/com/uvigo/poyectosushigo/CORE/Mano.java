@@ -31,7 +31,7 @@ public class Mano {
     /**
      * Añade una carta a la mano
      * 
-     * @param carta Carta a añadir
+     * @param carta carta a añadir
      */
     public void addCarta(Carta carta) {
         cartasMano.add(carta);
@@ -41,7 +41,7 @@ public class Mano {
      * Elimina y devuelve una carta de la mano
      * 
      * @param pos posición de la carta, empezando en 1
-     * @return la Carta de esa posición
+     * @return la carta de esa posición
      */
     public Carta cogerCarta(int pos) {
         return cartasMano.remove(pos - 1);

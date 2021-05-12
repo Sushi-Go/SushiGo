@@ -9,7 +9,7 @@ public class ES {
     /**
      * Devuelve una cadena leída por teclado
      *
-     * @param mensaje literal que se imprime por pantalla al usuario
+     * @param mensaje literal que se muestra por pantalla al usuario
      * @return la cadena leída, como String
      */
     public static String pideCadena(String mensaje) {
@@ -24,8 +24,8 @@ public class ES {
     /**
      * Devuelve un entero leído por teclado
      *
-     * @param mensaje literal que se imprime por pantalla al usuario
-     * @return el entero, como int
+     * @param mensaje literal que se muestra por pantalla al usuario
+     * @return el entero leído, como int
      */
     public static int pideEntero(String mensaje) {
         boolean esValido = false;
@@ -43,40 +43,6 @@ public class ES {
         } while (!esValido);
 
         return leer;
-    }
-
-    /**
-     * Devuelve un real leído por teclado
-     *
-     * @param mensaje literal que se imprime por pantalla al usuario
-     * @return el real leído, como double
-     */
-    private static double pideReal(String mensaje) {
-        boolean esValido = false;
-        double leer = 0;
-
-        do {
-            try {
-                leer = Double.parseDouble(pideCadena(mensaje).trim());
-                esValido = true;
-            } catch (NumberFormatException e) {
-                System.err.println("La cadena introducida no se puede "
-                        + "convertir a número real. Por favor, "
-                        + "introdúcela de nuevo.");
-            }
-        } while (!esValido);
-
-        return leer;
-    }
-
-    /**
-     * Devuelve un carácter leído por teclado
-     *
-     * @param mensaje literal que se imprime por pantalla al usuario
-     * @return el carácter leído, como char
-     */
-    private static char pideCaracter(String msg) {
-        return pideCadena(msg).toUpperCase().charAt(0);
     }
 
 }

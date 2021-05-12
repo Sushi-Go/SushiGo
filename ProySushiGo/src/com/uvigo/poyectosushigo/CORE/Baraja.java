@@ -40,7 +40,7 @@ public class Baraja {
     /**
      * Elimina y devuelve la primera carta de la baraja
      * 
-     * @return la primera Carta de la pila
+     * @return la primera carta de la pila
      */
     public Carta cogerCarta() {
         return baraja.pop();

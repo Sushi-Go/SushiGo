@@ -13,7 +13,7 @@ public class Juego {
     //Número máximo de jugadores
     public static final int MAX_NUM_JUGADORES = 5;
 
-    //Máima longitud posible de los nombres de los jugadores
+    //Máxima longitud posible de los nombres de los jugadores
     public static final int MAX_LONG_NOMBRE = 30;
 
     public static void inicio() {
@@ -284,7 +284,7 @@ public class Juego {
         ganadores[0] = jugadores[0];
         int numGanadores = 1;
 
-        //Ignoraremos los jugadores de ganadores de índice >= numGanadores
+        //Ignoraremos los jugadores de 'ganadores' de índice >= numGanadores
         for (int i = 1; i < jugadores.length; i++) {
             if (jugadores[i].getPuntos() > ganadores[0].getPuntos()) {
                 ganadores[0] = jugadores[0];
@@ -293,7 +293,7 @@ public class Juego {
                 ganadores[numGanadores++] = jugadores[i];
             }
         }
-        //Mostramos por pantalla
+        //Mostramos el resultado por pantalla
         if (numGanadores == 1) {
             System.out.println("El ganador es "
                     + ganadores[0].getNombre() + "!");
