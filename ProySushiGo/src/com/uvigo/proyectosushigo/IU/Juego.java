@@ -113,18 +113,32 @@ public class Juego {
      * @param jugadores array de jugadores
      */
     private static void leeJugadores(Jugador[] jugadores) {
+        boolean repetir;
+        String[] usados = new String[jugadores.length];
+
         System.out.println("\nIntroduce los nombres de cada jugador"
                 + " (máximo " + MAX_LONG_NOMBRE + " caracteres)");
 
         for (int i = 0; i < jugadores.length; i++) {
-            String nombre = pideCadena("Jugador " + (i + 1) + ": ");
-
-            while (nombre.length() > MAX_LONG_NOMBRE) {
-                System.err.println("El máximo de caracteres es "
-                        + MAX_LONG_NOMBRE);
+            String nombre;
+            do {
+                repetir = false;
                 nombre = pideCadena("Jugador " + (i + 1) + ": ");
-            }
+
+                if (nombre.length() > MAX_LONG_NOMBRE) {
+                    System.err.println("El máximo de caracteres es "
+                            + MAX_LONG_NOMBRE);
+                    repetir = true;
+                }
+                for (String s : usados) {
+                    if (nombre.equals(s)) {
+                        System.err.println("El nombre ya está en uso");
+                        repetir = true;
+                    }
+                }
+            } while (repetir);
             jugadores[i] = new Jugador(nombre);
+            usados[i] = nombre;
         }
     }
 

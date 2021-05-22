@@ -14,7 +14,6 @@ public class CartasMesa {
 
     private final List<Stack<Carta>> cartasMesa;
     private int puntosBase;
-    private int numRollos;
 
     /**
      * Crea un nuevo CartasMesa vacío
@@ -22,7 +21,6 @@ public class CartasMesa {
     public CartasMesa() {
         this.cartasMesa = new ArrayList<>();
         this.puntosBase = 0;
-        this.numRollos = 0;
     }
 
     /**
@@ -40,7 +38,18 @@ public class CartasMesa {
      * @return la suma de los rollos de todas las cartas de la mesa, como int
      */
     public int getNumRollos() {
-        return numRollos;
+        int toret = 0;
+        int pila = 0;
+
+        while (toret == 0 && pila < cartasMesa.size()) {
+            if (cartasMesa.get(pila).peek().getNombre().startsWith("Maki")) {
+                for (Carta c : cartasMesa.get(pila)) {
+                    toret += Integer.parseInt(c.getNombre().substring(8, 9));
+                }
+            }
+            pila++;
+        }
+        return toret;
     }
 
     /**
@@ -76,7 +85,6 @@ public class CartasMesa {
             if (apilarSobre(carta, "Maki") == null) {
                 apilar(carta);
             }
-            numRollos += Integer.parseInt(carta.getNombre().substring(8, 9));
 
         } else if (carta.getNombre().equals("Tempura")) {
             Stack<Carta> pila = apilarSobre(carta, "Tempura");
@@ -105,6 +113,7 @@ public class CartasMesa {
 
             if (pila == null) {
                 apilar(carta);
+                nuevosPuntos = 1;
             } else {
                 if (pila.size() <= 5) {
                     nuevosPuntos = pila.size();
